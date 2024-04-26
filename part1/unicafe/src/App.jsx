@@ -16,7 +16,10 @@ const Button = ({ onClick, text }) => {
 
 const StatisticLine = ({ text, value, suffix="" }) => {
   return (
-    <p>{text}: {value}{suffix}</p>
+    <tr>
+      <td>{text}:</td>
+      <td>{value}{suffix}</td>
+    </tr>
   )
 }
 
@@ -29,12 +32,16 @@ const Statistics = (props) => {
   if (total) {
     return (
       <div>
-        <StatisticLine text="Good" value={good} />
-        <StatisticLine text="Neutral" value={neutral} />
-        <StatisticLine text="Bad" value={bad} />
-        <StatisticLine text="All" value={total} />
-        <StatisticLine text="Average" value={average} />
-        <StatisticLine text="Positive" value={positive} suffix="%" />
+        <table>
+          <tbody>
+            <StatisticLine text="Good" value={good} />
+            <StatisticLine text="Neutral" value={neutral} />
+            <StatisticLine text="Bad" value={bad} />
+            <StatisticLine text="All" value={total} />
+            <StatisticLine text="Average" value={average} />
+            <StatisticLine text="Positive" value={positive} suffix="%" />
+          </tbody>
+        </table>
       </div>
     )
   } else {
