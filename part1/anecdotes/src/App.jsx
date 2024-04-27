@@ -1,10 +1,25 @@
 import { useState } from 'react'
 
+const Header = ({ title }) => {
+  return (
+    <h1>{title}</h1>
+  )
+}
+
 const Button = ({ onClick, text }) => {
   return (
     <button onClick={onClick}>
       {text}
     </button>
+  )
+}
+
+const Anecdote = ({ anecdote, points }) => {
+  return (
+    <div>
+      {anecdote}<br />
+      Votes: {points}<br />
+    </div>
   )
 }
 
@@ -22,6 +37,7 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
+  const [winner, setWinner] = useState(0)
 
   const handleRandomClick = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
@@ -30,15 +46,21 @@ const App = () => {
   const handleVoteClick = () => {
     const newPoints = [...points]
     newPoints[selected] += 1
+
+    if (newPoints[selected] > newPoints[winner])
+      setWinner(selected)
+
     setPoints(newPoints)
   }
-
+  
   return (
     <div>
-      {anecdotes[selected]}<br />
-      Votes: {points[selected]}<br />
+      <Header title="Anecdote of the day"/>
+      <Anecdote anecdote={anecdotes[selected]} points={points[selected]} />
       <Button onClick={handleVoteClick} text="Vote" />
       <Button onClick={handleRandomClick} text="Next anecdote" />
+      <Header title="Anecdote with most votes"/>
+      <Anecdote anecdote={anecdotes[winner]} points={points[winner]} />
     </div>
   )
 }
