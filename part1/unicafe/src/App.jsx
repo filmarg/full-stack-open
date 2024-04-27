@@ -23,13 +23,14 @@ const StatisticLine = ({ text, value, suffix="" }) => {
   )
 }
 
-const Statistics = (props) => {
-  const [good, neutral, bad] = props.feedback
+const Statistics = ({ feedback }) => {
+  const [good, neutral, bad] = feedback
   const total = good + neutral + bad
-  const average = total ? (good + bad * -1) / total : 0
-  const positive = total ? good * 100 / total : 0
 
   if (total) {
+    const average = (good + bad * -1) / total
+    const positive = good * 100 / total
+
     return (
       <div>
         <table>

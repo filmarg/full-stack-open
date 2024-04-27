@@ -39,18 +39,16 @@ const App = () => {
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
   const [winner, setWinner] = useState(0)
 
-  const handleRandomClick = () => {
+  const handleRandomClick = () =>
     setSelected(Math.floor(Math.random() * anecdotes.length))
-  }
 
   const handleVoteClick = () => {
     const newPoints = [...points]
     newPoints[selected] += 1
+    setPoints(newPoints)
 
     if (newPoints[selected] > newPoints[winner])
       setWinner(selected)
-
-    setPoints(newPoints)
   }
   
   return (
