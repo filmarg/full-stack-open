@@ -57,7 +57,6 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const [selected, setSelected] = useState(0)
-
   const anecdotes = [
     'If it hurts, do it more often.',
     'Adding manpower to a late software project makes it later!',
@@ -68,12 +67,19 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+  const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
 
   const handleClick = (state, setter) =>
         () => setter(state + 1)
 
   const handleRandomClick = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
+  }
+
+  const handleVoteClick = () => {
+    const newPoints = [...points]
+    newPoints[selected] += 1
+    setPoints(newPoints)
   }
    
   return (
@@ -85,6 +91,8 @@ const App = () => {
       <Header title="Statistics" />
       <Statistics feedback={[good, neutral, bad]} />
       {anecdotes[selected]}<br />
+      Votes: {points[selected]}<br />
+      <Button onClick={handleVoteClick} text="Vote" />
       <Button onClick={handleRandomClick} text="Next anecdote" />
     </div>
   )
