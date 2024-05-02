@@ -8,11 +8,15 @@ const App = () => {
 
   const handleNoteSubmit = (e) => {
     e.preventDefault()
+
+    const newPerson = {
+      name: newName
+    }
     
-    if (persons.some(person => person.name === newName)) {
+    if (persons.some(person => JSON.stringify(person) === JSON.stringify(newPerson))) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      setPersons(persons.concat({name: newName}))
+      setPersons(persons.concat(newPerson))
       setNewName('')
     }
   }
