@@ -1,5 +1,24 @@
 import { useState } from 'react'
 
+const Filter = ({ value, onChange }) =>
+      <div>filter shown with <input value={value} onChange={onChange} /></div>
+
+const PersonForm = ({ onSubmit, name, number }) => (
+  <form onSubmit={onSubmit}>
+    <div>name: <input value={name.value} onChange={name.onChange} /></div>
+    <div>number: <input value={number.value} onChange={number.onChange} /></div>
+    <div><button type="submit">add</button></div>
+  </form>
+)
+
+const Person = ({ person }) => <li>{person.name} {person.number}</li>
+
+const Persons = ({ persons }) => (
+  <ul>
+    {persons.map(person => <Person key={person.name+person.number} person={person} />)}
+  </ul>
+)
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456'},
@@ -29,26 +48,20 @@ const App = () => {
       setNewNumber('')
     }
   }
-  const handleNameChange = (e) => setNewName(e.target.value)
-  const handleNumberChange = (e) => setNewNumber(e.target.value)
-  const handleQueryChange = (e) => setQuery(e.target.value)
   
+  const handleChange = (setter) =>
+        (e) => setter(e.target.value)
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>filter shown with <input value={query} onChange={handleQueryChange} /></div>
-      <h2>Add a new one</h2>
-      <form onSubmit={handleNoteSubmit}>
-        <div>name: <input value={newName} onChange={handleNameChange} /></div>
-        <div>number: <input value={newNumber} onChange={handleNumberChange} /></div>
-        <div><button type="submit">add</button></div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {personsShown.map(person =>
-          <li key={person.name+person.number}>{person.name} {person.number}</li>
-        )}
-      </ul>
+      <Filter value={query} onChange={handleChange(setQuery)} />
+      <h3>Add a new one</h3>
+      <PersonForm onSubmit={handleNoteSubmit}
+                  name={{value: newName, onChange: handleChange(setNewName)}}
+                  number={{value: newNumber, onChange: handleChange(setNewNumber)}} />
+      <h3>Numbers</h3>
+      <Persons persons={personsShown} />
     </div>
   )
 }
