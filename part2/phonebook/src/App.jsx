@@ -12,11 +12,19 @@ const PersonForm = ({ onSubmit, name, number }) => (
   </form>
 )
 
-const Person = ({ person }) => <li>{person.name} {person.number}</li>
+const Person = ({ person, onClick }) => (
+  <>
+    <li>
+      {person.name} {person.number}
+      <button onClick={onClick}>Delete</button>
+    </li>
+  </>
+)
 
-const Persons = ({ persons }) => (
+const Persons = ({ persons, onClick }) => (
   <ul>
-    {persons.map(person => <Person key={person.id} person={person} />)}
+    {persons.map(person => <Person key={person.id}
+                                   person={person} onClick={onClick(person)} />)}
   </ul>
 )
 
@@ -54,10 +62,21 @@ const App = () => {
         })
     }
   }
-  
+
+  const handleNoteDelete = (person) => (
+    () => {
+      if (confirm(`Delete "${person.name}"?`)) {
+        personService
+          .remove(person.id)
+          .then(removed =>
+            setPersons(persons.filter(p => p.id !== removed.id)))
+      }
+    }
+  )
+
   const handleChange = (setter) =>
         (e) => setter(e.target.value)
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
@@ -67,7 +86,7 @@ const App = () => {
                   name={{value: newName, onChange: handleChange(setNewName)}}
                   number={{value: newNumber, onChange: handleChange(setNewNumber)}} />
       <h3>Numbers</h3>
-      <Persons persons={personsShown} />
+      <Persons persons={personsShown} onClick={handleNoteDelete} />
     </div>
   )
 }
