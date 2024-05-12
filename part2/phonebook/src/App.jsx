@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 const Filter = ({ value, onChange }) =>
       <div>filter shown with <input value={value} onChange={onChange} /></div>
@@ -29,9 +29,9 @@ const App = () => {
     person.name.toLowerCase().includes(query.toLowerCase()))
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => setPersons(response.data))
+    personService
+      .getAll()
+      .then(allPersons => setPersons(allPersons))
   }, [])
   
   const handleNoteSubmit = (e) => {
@@ -45,10 +45,10 @@ const App = () => {
     if (persons.some(person => JSON.stringify(person) === JSON.stringify({...newPerson, id: person.id}))) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      axios
-        .post('http://localhost:3001/persons', newPerson)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      personService
+        .add(newPerson)
+        .then(p => {
+          setPersons(persons.concat(p))
           setNewName('')
           setNewNumber('')
         })
