@@ -50,7 +50,7 @@ const App = () => {
       number: newNumber,
     }
     
-    if (persons.some(person => JSON.stringify(person) === JSON.stringify({...newPerson, id: person.id}))) {
+    if (persons.some(person => JSON.stringify({...person, id: undefined}) === JSON.stringify(newPerson))) {
       alert(`${newName} is already added to phonebook`)
     } else {
       personService
