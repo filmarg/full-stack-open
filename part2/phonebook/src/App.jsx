@@ -50,8 +50,32 @@ const App = () => {
       number: newNumber,
     }
     
-    if (persons.some(person => JSON.stringify({...person, id: undefined}) === JSON.stringify(newPerson))) {
-      alert(`${newName} is already added to phonebook`)
+    // Exercise 2.7 says, "Keep in mind how object equality works in
+    // Javascript," so I guess I don't *have* to actually use
+    // 'JSON.stringify' as I did before:
+    //
+    //     if (persons.some(person => JSON.stringify({...person, id: undefined}) === JSON.stringify(newPerson)))
+    //
+    // I guess it's just about names and I don't have to check for
+    // entries with the same number but different names.  It's
+    // confusing, I'm not sure what's expected.  Maybe I'm being too
+    // precise, though.  I'll just leave it as it is because it's
+    // better.
+    
+    const person = persons.find(p => p.name === newPerson.name)
+    
+    if (person) {
+      if (person.number === newPerson.number) {
+        alert(`${newName} is already added to phonebook`)
+      } else if (confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        personService
+          .update(person.id, {...person, number: newPerson.number})
+          .then(returned => {
+            setPersons(persons.map(p => p.id !== returned.id ? p : returned))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
     } else {
       personService
         .add(newPerson)
