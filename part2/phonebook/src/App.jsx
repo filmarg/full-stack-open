@@ -42,7 +42,7 @@ const App = () => {
       .then(allPersons => setPersons(allPersons))
   }, [])
   
-  const handleNoteSubmit = (e) => {
+  const handlePersonSubmit = (e) => {
     e.preventDefault()
 
     const newPerson = {
@@ -63,7 +63,7 @@ const App = () => {
     }
   }
 
-  const handleNoteDelete = (person) => (
+  const handlePersonDelete = (person) => (
     () => {
       if (confirm(`Delete "${person.name}"?`)) {
         personService
@@ -82,11 +82,11 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter value={query} onChange={handleChange(setQuery)} />
       <h3>Add a new one</h3>
-      <PersonForm onSubmit={handleNoteSubmit}
+      <PersonForm onSubmit={handlePersonSubmit}
                   name={{value: newName, onChange: handleChange(setNewName)}}
                   number={{value: newNumber, onChange: handleChange(setNewNumber)}} />
       <h3>Numbers</h3>
-      <Persons persons={personsShown} onClick={handleNoteDelete} />
+      <Persons persons={personsShown} onClick={handlePersonDelete} />
     </div>
   )
 }
