@@ -1,6 +1,17 @@
 import { useState, useEffect } from 'react'
 import personService from './services/persons'
 
+const Notification = ({ message, type }) => {
+  if (message === null)
+    return null
+
+  return (
+    <div className={type}>
+      {message}
+    </div>
+  )
+}
+
 const Filter = ({ value, onChange }) =>
       <div>filter shown with <input value={value} onChange={onChange} /></div>
 
@@ -35,6 +46,7 @@ const App = () => {
   const [query, setQuery] = useState('')
   const personsShown = persons.filter(person =>
     person.name.toLowerCase().includes(query.toLowerCase()))
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -74,6 +86,7 @@ const App = () => {
             setPersons(persons.map(p => p.id !== returned.id ? p : returned))
             setNewName('')
             setNewNumber('')
+            displayNotification(`Updated ${returned.name}`, 5000)
           })
       }
     } else {
@@ -83,6 +96,7 @@ const App = () => {
           setPersons(persons.concat(p))
           setNewName('')
           setNewNumber('')
+          displayNotification(`Added ${p.name}`, 5000)
         })
     }
   }
@@ -92,18 +106,26 @@ const App = () => {
       if (confirm(`Delete "${person.name}"?`)) {
         personService
           .remove(person.id)
-          .then(removed =>
-            setPersons(persons.filter(p => p.id !== removed.id)))
+          .then(removed => {
+            setPersons(persons.filter(p => p.id !== removed.id))
+            displayNotification(`Deleted ${removed.name}`, 5000)
+          })
       }
     }
   )
 
   const handleChange = (setter) =>
         (e) => setter(e.target.value)
+
+  const displayNotification = (message, delay) => {
+    setMessage(message)
+    setTimeout(() => setMessage(null), delay)
+  }
   
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} type="confirmation" />
       <Filter value={query} onChange={handleChange(setQuery)} />
       <h3>Add a new one</h3>
       <PersonForm onSubmit={handlePersonSubmit}
