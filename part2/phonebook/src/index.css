@@ -1,4 +1,4 @@
-.confirmation {
+.confirmation, .error {
     background: lightgrey;
     font-size: 20px;
     border-style: solid;
@@ -9,4 +9,8 @@
 
 .confirmation {
     color: green;
+}
+
+.error {
+    color: red;
 }

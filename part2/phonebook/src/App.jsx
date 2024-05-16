@@ -47,6 +47,7 @@ const App = () => {
   const personsShown = persons.filter(person =>
     person.name.toLowerCase().includes(query.toLowerCase()))
   const [message, setMessage] = useState(null)
+  const [messageType, setMessageType] = useState('')
 
   useEffect(() => {
     personService
@@ -86,7 +87,11 @@ const App = () => {
             setPersons(persons.map(p => p.id !== returned.id ? p : returned))
             setNewName('')
             setNewNumber('')
-            displayNotification(`Updated ${returned.name}`, 5000)
+            displayNotification('confirmation', `Updated ${returned.name}`, 5000)
+          })
+          .catch(error => {
+            setPersons(persons.filter(p => p.id !== person.id))
+            displayNotification('error', `Information of ${person.name} has already been removed from server`, 8000)
           })
       }
     } else {
@@ -96,7 +101,7 @@ const App = () => {
           setPersons(persons.concat(p))
           setNewName('')
           setNewNumber('')
-          displayNotification(`Added ${p.name}`, 5000)
+          displayNotification('confirmation', `Added ${p.name}`, 5000)
         })
     }
   }
@@ -108,7 +113,7 @@ const App = () => {
           .remove(person.id)
           .then(removed => {
             setPersons(persons.filter(p => p.id !== removed.id))
-            displayNotification(`Deleted ${removed.name}`, 5000)
+            displayNotification('confirmation', `Deleted ${removed.name}`, 5000)
           })
       }
     }
@@ -117,7 +122,8 @@ const App = () => {
   const handleChange = (setter) =>
         (e) => setter(e.target.value)
 
-  const displayNotification = (message, delay) => {
+  const displayNotification = (type, message, delay) => {
+    setMessageType(type)
     setMessage(message)
     setTimeout(() => setMessage(null), delay)
   }
@@ -125,7 +131,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} type="confirmation" />
+      <Notification message={message} type={messageType} />
       <Filter value={query} onChange={handleChange(setQuery)} />
       <h3>Add a new one</h3>
       <PersonForm onSubmit={handlePersonSubmit}
