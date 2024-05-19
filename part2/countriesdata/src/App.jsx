@@ -4,7 +4,16 @@ import axios from 'axios'
 const Filter = ({ query, onChange}) =>
   <div>Find countries: <input value={query} onChange={onChange} /></div>
 
-const Country = ({ country }) => {
+const CountryItem = ({ country, onClick }) => {
+  return (
+    <div>
+      {country}
+      <button onClick={onClick}>Show</button><br />
+    </div>
+  )
+}
+
+const CountryInfo = ({ country }) => {
   return (
     <div>
       <h1>{country.name.common}</h1>
@@ -22,7 +31,7 @@ const Country = ({ country }) => {
   )
 }
 
-const Countries = ({ countries }) => {
+const CountryList = ({ countries, onClick }) => {
   if (!countries.length) {
     return null
   } else if (countries.length > 10) {
@@ -31,15 +40,10 @@ const Countries = ({ countries }) => {
     return (
       <div>
         {countries.map(c =>
-          <div key={c.name.common}>
-            {c.name.common}<br />
-          </div>
+          <CountryItem key={c.name.common}
+                       country={c.name.common} onClick={onClick(c)}/>
         )}
       </div>
-    )
-  } else {
-    return (
-      <Country country={countries[0]} />
     )
   }
 }
@@ -47,8 +51,8 @@ const Countries = ({ countries }) => {
 const App = () => {
   const [query, setQuery] = useState('')
   const [countries, setCountries] = useState(null)
-  const countriesShown = query ? countries.filter(c =>
-    c.name.common.toLowerCase().includes(query.toLowerCase())) : []
+  const [selected, setSelected] = useState(null)
+  const [countriesShown, setCountriesShown] = useState([])
 
   useEffect(() => {
     axios
@@ -57,14 +61,26 @@ const App = () => {
       .catch(error => console.log(error.message))
   }, [])
   
-  const handleChange = (e) => setQuery(e.target.value)
+  const handleChange = (e) => {
+    const newQuery = e.target.value
+    const newCountriesShown = newQuery ? countries.filter(c =>
+      c.name.common.toLowerCase().includes(newQuery.toLowerCase())) : []
+
+    setQuery(newQuery)
+    setCountriesShown(newCountriesShown)
+    setSelected(newCountriesShown.length === 1 ? newCountriesShown[0] : null)
+  }
   
+  const handleClick = (country) =>
+    () => setSelected(country)
+
   if (!countries) return null
   
   return (
     <>
       <Filter value={query} onChange={handleChange} />
-      <Countries countries={countriesShown} />
+      <CountryList countries={countriesShown} onClick={handleClick} />
+      {selected && <CountryInfo country={selected} />}
     </>
   )
 }
