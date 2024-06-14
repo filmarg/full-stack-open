@@ -103,6 +103,10 @@ const App = () => {
           setNewNumber('')
           displayNotification('confirmation', `Added ${p.name}`, 5000)
         })
+        .catch(error => {
+          displayNotification('error', `Failed: ${error.response.data.error}`, 8000)
+          console.log(`${error.message}: ${error.response.data.error}`)
+        })
     }
   }
 
@@ -112,8 +116,8 @@ const App = () => {
         personService
           .remove(person.id)
           .then(removed => {
-            setPersons(persons.filter(p => p.id !== removed.id))
-            displayNotification('confirmation', `Deleted ${removed.name}`, 5000)
+            setPersons(persons.filter(p => p.id !== person.id))
+            displayNotification('confirmation', `Deleted ${person.name}`, 5000)
           })
       }
     }
