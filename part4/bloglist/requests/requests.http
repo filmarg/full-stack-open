@@ -1,0 +1,16 @@
+# -*- restclient -*-
+# 
+# REST client for Emacs:
+# https://github.com/pashky/restclient.el
+
+# Post a blog
+
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Teach Yourself Programming in Ten Years",
+    "author": "Peter Norvig",
+    "url": "https://www.norvig.com/21-days.html",
+    "likes": 5
+}
