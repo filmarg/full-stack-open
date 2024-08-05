@@ -1,14 +1,15 @@
 const config = require('./utils/config')
 const logger = require('./utils/logger')
 const express = require('express')
+const app = express()
+const blogsRouter = require('./controllers/blogs')
 const morgan = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
-const Blog = require('./models/blog')
+
+//========== DB connection
 
 mongoose.set('strictQuery', false)
-
-// Connect to the DB
 
 logger.info('Connecting to', config.MONGODB_URI)
 mongoose.connect(config.MONGODB_URI)
@@ -19,7 +20,7 @@ mongoose.connect(config.MONGODB_URI)
     logger.error('Error connecting to MongoDB:', err.message)
   })
 
-const app = express()
+//========== Middleware
 
 morgan.token('data', (req) => req.method === 'POST' ? JSON.stringify(req.body) : '')
 
@@ -29,31 +30,15 @@ app.use(express.json())
 
 //========== API
 
-app.get('/api/blogs', (req, res) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      res.json(blogs)
-    })
-})
+app.use(blogsRouter)
 
-app.post('/api/blogs', (req, res) => {
-  const blog = new Blog(req.body)
-
-  blog
-    .save()
-    .then(result => {
-      res.status(201).json(result)
-    })
-})
+//========== Utilities
 
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
-
-//========== Error handling
 
 const errorHandler = (err, req, res, next) => {
   logger.error(err)
