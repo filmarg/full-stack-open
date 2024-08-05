@@ -4,6 +4,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
+const Blog = require('./models/blog')
 
 mongoose.set('strictQuery', false)
 
@@ -17,26 +18,6 @@ mongoose.connect(config.MONGODB_URI)
   .catch(err => {
     logger.error('Error connecting to MongoDB:', err.message)
   })
-
-// Make a model
-
-const blogSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number,
-})
-
-// Alter the model for it to suit our needs
-blogSchema.set('toJSON', {
-  transform: (doc, ret) => {
-    ret.id = ret._id.toString()
-    delete ret._id
-    delete ret.__v
-  }
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
 
 const app = express()
 
