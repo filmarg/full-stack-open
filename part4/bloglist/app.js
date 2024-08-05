@@ -30,7 +30,7 @@ app.use(express.json())
 
 //========== API
 
-app.use(blogsRouter)
+app.use('/api/blogs', blogsRouter)
 
 //========== Utilities
 
