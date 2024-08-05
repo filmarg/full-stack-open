@@ -1,4 +1,5 @@
 require('dotenv').config()
+const logger = require('./utils/logger')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -9,13 +10,13 @@ mongoose.set('strictQuery', false)
 // Connect to the DB
 
 const mongoUrl = process.env.MONGODB_URI
-console.log('Connecting to', mongoUrl)
+logger.info('Connecting to', mongoUrl)
 mongoose.connect(mongoUrl)
   .then(() => {
-    console.log('Connected to MongoDB')
+    logger.info('Connected to MongoDB')
   })
   .catch(err => {
-    console.log('Error connecting to MongoDB:', err.message)
+    logger.error('Error connecting to MongoDB:', err.message)
   })
 
 // Make a model
@@ -75,7 +76,7 @@ app.use(unknownEndpoint)
 //========== Error handling
 
 const errorHandler = (err, req, res, next) => {
-  console.error(err)
+  logger.error(err)
 
   if (err.name === 'CastError') {
     // Invalid object ID for Mongo
@@ -97,5 +98,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  logger.info(`Server running on port ${PORT}`)
 })
