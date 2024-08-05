@@ -1,4 +1,4 @@
-require('dotenv').config()
+const config = require('./utils/config')
 const logger = require('./utils/logger')
 const express = require('express')
 const morgan = require('morgan')
@@ -9,9 +9,8 @@ mongoose.set('strictQuery', false)
 
 // Connect to the DB
 
-const mongoUrl = process.env.MONGODB_URI
-logger.info('Connecting to', mongoUrl)
-mongoose.connect(mongoUrl)
+logger.info('Connecting to', config.MONGODB_URI)
+mongoose.connect(config.MONGODB_URI)
   .then(() => {
     logger.info('Connected to MongoDB')
   })
@@ -96,7 +95,6 @@ app.use(errorHandler)
 
 //========== Run server
 
-const PORT = process.env.PORT
-app.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT}`)
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
 })
