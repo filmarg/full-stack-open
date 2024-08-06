@@ -32,6 +32,41 @@ describe('total likes', () => {
   })
 })
 
+describe('favorite blog', () => {
+  test('of list with 0 blogs: is null', () => {
+    assert.deepStrictEqual(
+      listHelper.favoriteBlog(blogsZero),
+      null
+    )
+  })
+
+  test('of list with 1 blog: is that blog', () => {
+    const favoriteBlog = {
+      title: "Go To Statement Considered Harmful",
+      author: "Edsger W. Dijkstra",
+      likes: 5,
+    }
+
+    assert.deepStrictEqual(
+      listHelper.favoriteBlog(blogsOne),
+      favoriteBlog
+    )
+  })
+
+  test('of list with >1 blogs: is one blog with most likes', () => {
+    const favoriteBlog = {
+      title: "Canonical string reduction",
+      author: "Edsger W. Dijkstra",
+      likes: 12,
+    }
+
+    assert.deepStrictEqual(
+      listHelper.favoriteBlog(blogs),
+      favoriteBlog
+    )
+  })
+})
+
 const blogsZero = []
 
 const blogsOne = [
