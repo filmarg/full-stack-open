@@ -18,12 +18,13 @@ beforeEach(async () => {
 })
 
 describe('blogs', () => {
-  test('are returned as JSON, in correct amount', async () => {
+  test('are returned as JSON and in correct amount', async () => {
     const res = await api
       .get('/api/blogs')
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
+    // Verify the number
     assert.strictEqual(
       res.body.length,
       helper.initBlogs.length
@@ -36,7 +37,7 @@ describe('blogs', () => {
     assert(blogsFromDb[0].id)
   })
 
-  test('can be posted with valid data', async () => {
+  test('can be successfully posted with valid data', async () => {
     const newBlog = {
       title: 'Moon Dead At 29',
       author: 'The Onion',
@@ -50,12 +51,14 @@ describe('blogs', () => {
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
+    // Verify the number
     const blogsAtEnd = await helper.blogsInDb()
     assert.strictEqual(
       blogsAtEnd.length,
       helper.initBlogs.length + 1
     )
 
+    // Verify the contents
     const blogsContents = blogsAtEnd.map(b => b.title)
     assert(blogsContents.includes('Moon Dead At 29'))
   })
