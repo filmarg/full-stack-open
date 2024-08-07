@@ -29,6 +29,12 @@ describe('blogs', () => {
       helper.initBlogs.length
     )
   })
+
+  test('are returned from DB with "id" property', async () => {
+    const blogsFromDb = await helper.blogsInDb()
+
+    assert(blogsFromDb[0].id)
+  })
 })
 
 after(async () => {
