@@ -2,7 +2,9 @@ const logger = require('./logger')
 const morgan = require('morgan')
 
 morgan.token('data', (req) => req.method === 'POST' ? JSON.stringify(req.body) : '')
-const morganLogger = morgan(':method :url :status :res[content-length] - :response-time ms :data')
+const morganLogger = process.env.NODE_ENV !== 'test'
+      ? morgan(':method :url :status :res[content-length] - :response-time ms :data')
+      : (req, res, next) => next()
 
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
