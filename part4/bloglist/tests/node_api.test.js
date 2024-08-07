@@ -83,7 +83,7 @@ describe('blogs', () => {
       )
     })
 
-    test('fails without "title"', async () => {
+    test('fails with status code 400 if "title" empty', async () => {
       const newBlog = {
         author: 'The Onion',
         url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
@@ -92,10 +92,17 @@ describe('blogs', () => {
       await api
         .post('/api/blogs')
         .send(newBlog)
-        .expect(400)      
+        .expect(400)
+
+      // Verify the number
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.strictEqual(
+        blogsAtEnd.length,
+        helper.initBlogs.length
+      )
     })
 
-    test('fails without "url"', async () => {
+    test('fails with status code 400 if "url" empty', async () => {
       const newBlog = {
         title: 'Moon Dead At 29',
         author: 'The Onion',
@@ -104,9 +111,16 @@ describe('blogs', () => {
       await api
         .post('/api/blogs')
         .send(newBlog)
-        .expect(400)      
+        .expect(400)
+
+      // Verify the number
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.strictEqual(
+        blogsAtEnd.length,
+        helper.initBlogs.length
+      )
     })
-  })  
+  })
 })
 
 after(async () => {
