@@ -46,6 +46,29 @@ const initBlogs = [
   },
 ]
 
+const blog = {
+  title: 'Moon Dead At 29',
+  author: 'The Onion',
+  url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
+  likes: 100,
+}
+
+const blogWithoutLikes = {
+  title: 'Moon Dead At 29',
+  author: 'The Onion',
+  url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
+}
+
+const blogWithoutTitle = {
+  author: 'The Onion',
+  url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
+}
+
+const blogWithoutUrl = {
+  title: 'Moon Dead At 29',
+  author: 'The Onion',
+}
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   // 'toJSON' is necessary because here the request does not go
@@ -55,5 +78,9 @@ const blogsInDb = async () => {
 
 module.exports = {
   initBlogs,
+  blog,
+  blogWithoutLikes,
+  blogWithoutTitle,
+  blogWithoutUrl,
   blogsInDb,
 }

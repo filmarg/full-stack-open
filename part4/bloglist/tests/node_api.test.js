@@ -39,16 +39,9 @@ describe('blogs', () => {
 
   describe('posting new blog', () => {
     test('succeeds with valid data', async () => {
-      const newBlog = {
-        title: 'Moon Dead At 29',
-        author: 'The Onion',
-        url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
-        likes: 100,
-      }
-      
       await api
         .post('/api/blogs')
-        .send(newBlog)
+        .send(helper.blog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
@@ -65,15 +58,9 @@ describe('blogs', () => {
     })
 
     test('succeeds without "likes", which defaults to 0', async () => {
-      const newBlog = {
-        title: 'Moon Dead At 29',
-        author: 'The Onion',
-        url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
-      }
-
       const res = await api
             .post('/api/blogs')
-            .send(newBlog)
+            .send(helper.blogWithoutLikes)
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
@@ -84,14 +71,9 @@ describe('blogs', () => {
     })
 
     test('fails with status code 400 if "title" empty', async () => {
-      const newBlog = {
-        author: 'The Onion',
-        url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
-      }
-
       await api
         .post('/api/blogs')
-        .send(newBlog)
+        .send(helper.blogWithoutTitle)
         .expect(400)
 
       // Verify the number
@@ -103,14 +85,9 @@ describe('blogs', () => {
     })
 
     test('fails with status code 400 if "url" empty', async () => {
-      const newBlog = {
-        title: 'Moon Dead At 29',
-        author: 'The Onion',
-      }
-
       await api
         .post('/api/blogs')
-        .send(newBlog)
+        .send(helper.blogWithoutUrl)
         .expect(400)
 
       // Verify the number
