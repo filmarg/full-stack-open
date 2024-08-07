@@ -95,6 +95,70 @@ describe('with some blogs in the DB', () => {
     })
   })
 
+  describe('update of blog', () => {
+    test('succeeds and is returned with new number of "likes" if valid', async () => {
+      const blogsAtStart = await helper.blogsInDb()
+      const blogToUpdate = {
+        ...blogsAtStart[4],
+        likes: 42,
+      }
+
+      const res = await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      // Verify the contents
+      assert.deepStrictEqual(
+        res.body,
+        blogToUpdate
+      )
+    })
+
+    test('fails with status code 400 if "id" invalid', async () => {
+      const blogsAtStart = await helper.blogsInDb()
+      const blogToUpdate = {
+        ...blogsAtStart[4],
+        likes: 42,
+        id: 'xXx_$definitely_invalid$_xXx',
+      }
+
+      const res = await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate)
+        .expect(400)
+
+      // Verify the contents
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.deepStrictEqual(
+        blogsAtEnd[4],
+        blogsAtStart[4]
+      )
+    })
+
+    test('fails with status code 400 if "likes" invalid', async () => {
+      const blogsAtStart = await helper.blogsInDb()
+      const blogToUpdate = {
+        ...blogsAtStart[4],
+        likes: 'many',
+      }
+
+      const res = await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate)
+        .expect(400)
+
+      // Verify the contents
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.deepStrictEqual(
+        blogsAtEnd[4],
+        blogsAtStart[4]
+      )
+    })
+  })
+
+  
   describe('deletion of blog', () => {
     test('succeeds with status code 204 if id valid', async () => {
       const blogToDelete = helper.initBlogs[3]
