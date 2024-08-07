@@ -96,7 +96,7 @@ describe('with some blogs in the DB', () => {
   })
 
   describe('deletion of blog', () => {
-    test('succeeds with status code 204', async () => {
+    test('succeeds with status code 204 if id valid', async () => {
       const blogToDelete = helper.initBlogs[3]
       
       await api
@@ -113,6 +113,21 @@ describe('with some blogs in the DB', () => {
       // Verify the contents
       const blogsContents = blogsAtEnd.map(b => b.title)
       assert(!blogsContents.includes(blogToDelete.title))
+    })
+
+    test('fails with status code 400 if id invalid', async () => {
+      const invalidId = 'xXx_$definitely_invalid$_xXx'
+
+      await api
+        .delete('/api/blogs/${invalidId}')
+        .expect(400)
+
+      // Verify the number
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.strictEqual(
+        blogsAtEnd.length,
+        helper.initBlogs.length
+      )
     })
   })
 })
