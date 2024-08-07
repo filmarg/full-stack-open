@@ -35,6 +35,30 @@ describe('blogs', () => {
 
     assert(blogsFromDb[0].id)
   })
+
+  test('can be posted with valid data', async () => {
+    const newBlog = {
+      title: 'Moon Dead At 29',
+      author: 'The Onion',
+      url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
+      likes: 100,
+    }
+    
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(
+      blogsAtEnd.length,
+      helper.initBlogs.length + 1
+    )
+
+    const blogsContents = blogsAtEnd.map(b => b.title)
+    assert(blogsContents.includes('Moon Dead At 29'))
+  })
 })
 
 after(async () => {
