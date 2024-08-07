@@ -82,6 +82,30 @@ describe('blogs', () => {
         0
       )
     })
+
+    test('fails without "title"', async () => {
+      const newBlog = {
+        author: 'The Onion',
+        url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
+      }
+
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)      
+    })
+
+    test('fails without "url"', async () => {
+      const newBlog = {
+        title: 'Moon Dead At 29',
+        author: 'The Onion',
+      }
+
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)      
+    })
   })  
 })
 
