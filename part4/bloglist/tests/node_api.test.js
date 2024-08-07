@@ -62,6 +62,25 @@ describe('blogs', () => {
     const blogsContents = blogsAtEnd.map(b => b.title)
     assert(blogsContents.includes('Moon Dead At 29'))
   })
+
+  test('can be posted without "likes", which defaults to 0', async () => {
+    const newBlog = {
+      title: 'Moon Dead At 29',
+      author: 'The Onion',
+      url: 'https://www.theonion.com/moon-dead-at-29-1849575577',
+    }
+
+    const res = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    assert.strictEqual(
+      res.body.likes,
+      0
+    )
+  })
 })
 
 after(async () => {
