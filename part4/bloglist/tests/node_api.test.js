@@ -10,15 +10,11 @@ const api = supertest(app)
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-
-  for (const blog of helper.initBlogs) {
-    const blogDoc = new Blog(blog)
-    await blogDoc.save()
-  }
+  await Blog.insertMany(helper.initBlogs)
 })
 
-describe('blogs', () => {
-  test('are returned as JSON and in correct amount', async () => {
+describe('with some blogs in the DB', () => {
+  test('blogs are returned as JSON and in correct amount', async () => {
     const res = await api
       .get('/api/blogs')
       .expect(200)
@@ -31,7 +27,7 @@ describe('blogs', () => {
     )
   })
 
-  test('are returned from DB with "id" property', async () => {
+  test('blogs are returned from DB with "id" property', async () => {
     const blogsFromDb = await helper.blogsInDb()
 
     assert(blogsFromDb[0].id)
