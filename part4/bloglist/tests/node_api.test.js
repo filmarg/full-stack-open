@@ -137,6 +137,27 @@ describe('with some blogs in the DB', () => {
       )
     })
 
+    test('fails with status code 400 if "id" non-existing', async () => {
+      const blogsAtStart = await helper.blogsInDb()
+      const blogToUpdate = {
+        ...blogsAtStart[4],
+        likes: 42,
+        id: helper.nonExistingId(),
+      }
+
+      const res = await api
+            .put(`/api/blogs/${blogToUpdate.id}`)
+            .send(blogToUpdate)
+            .expect(400)
+
+      // Verify the contents
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.deepStrictEqual(
+        blogsAtEnd[4],
+        blogsAtStart[4]
+      )
+    })
+
     test('fails with status code 400 if "likes" invalid', async () => {
       const blogsAtStart = await helper.blogsInDb()
       const blogToUpdate = {
