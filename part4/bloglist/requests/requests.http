@@ -14,3 +14,14 @@ Content-Type: application/json
     "url": "https://www.norvig.com/21-days.html",
     "likes": 5
 }
+
+# Add a user
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "1stein",
+    "password": "spacetime",
+    "name": "Albert Einstein"
+}

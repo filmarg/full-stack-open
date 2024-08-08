@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const initBlogs = [
   {
@@ -69,6 +70,12 @@ const blogWithoutUrl = {
   author: 'The Onion',
 }
 
+const user = {
+  username: 'jcTheEmperor',
+  password: 'venividivici',
+  name: 'Julius Caesar',
+}
+
 const invalidId = 'xXx_$definitely_invalid$_xXx'
 
 const blogsInDb = async () => {
@@ -76,6 +83,13 @@ const blogsInDb = async () => {
   // 'toJSON' is necessary because here the request does not go
   // through the express.json() middleware.
   return blogs.map(b => b.toJSON())
+}
+
+const usersInDb = async () => {
+  const users = await User.find({})
+  // 'toJSON' is necessary because here the request does not go
+  // through the express.json() middleware.
+  return users.map(u => u.toJSON())
 }
 
 const nonExistingId = async () => {
@@ -91,7 +105,9 @@ module.exports = {
   blogWithoutLikes,
   blogWithoutTitle,
   blogWithoutUrl,
+  user,
   invalidId,
   blogsInDb,
+  usersInDb,
   nonExistingId,
 }
