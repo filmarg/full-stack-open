@@ -69,6 +69,8 @@ const blogWithoutUrl = {
   author: 'The Onion',
 }
 
+const invalidId = 'xXx_$definitely_invalid$_xXx'
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   // 'toJSON' is necessary because here the request does not go
@@ -82,5 +84,6 @@ module.exports = {
   blogWithoutLikes,
   blogWithoutTitle,
   blogWithoutUrl,
+  invalidId,
   blogsInDb,
 }

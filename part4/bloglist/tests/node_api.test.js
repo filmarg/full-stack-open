@@ -121,7 +121,7 @@ describe('with some blogs in the DB', () => {
       const blogToUpdate = {
         ...blogsAtStart[4],
         likes: 42,
-        id: 'xXx_$definitely_invalid$_xXx',
+        id: helper.invalidId,
       }
 
       const res = await api
@@ -180,10 +180,8 @@ describe('with some blogs in the DB', () => {
     })
 
     test('fails with status code 400 if id invalid', async () => {
-      const invalidId = 'xXx_$definitely_invalid$_xXx'
-
       await api
-        .delete('/api/blogs/${invalidId}')
+        .delete('/api/blogs/${helper.invalidId}')
         .expect(400)
 
       // Verify the number
