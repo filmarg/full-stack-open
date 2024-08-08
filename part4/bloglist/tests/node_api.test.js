@@ -124,7 +124,7 @@ describe('with some blogs in the DB', () => {
         id: helper.invalidId,
       }
 
-      const res = await api
+      await api
         .put(`/api/blogs/${blogToUpdate.id}`)
         .send(blogToUpdate)
         .expect(400)
@@ -145,10 +145,10 @@ describe('with some blogs in the DB', () => {
         id: helper.nonExistingId(),
       }
 
-      const res = await api
-            .put(`/api/blogs/${blogToUpdate.id}`)
-            .send(blogToUpdate)
-            .expect(400)
+      await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(blogToUpdate)
+        .expect(400)
 
       // Verify the contents
       const blogsAtEnd = await helper.blogsInDb()
@@ -165,7 +165,7 @@ describe('with some blogs in the DB', () => {
         likes: 'many',
       }
 
-      const res = await api
+      await api
         .put(`/api/blogs/${blogToUpdate.id}`)
         .send(blogToUpdate)
         .expect(400)
