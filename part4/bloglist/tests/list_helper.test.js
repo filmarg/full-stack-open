@@ -11,33 +11,25 @@ test('dummy returns one', () => {
 
 describe('total likes', () => {
   test('of list with 0 blogs: is 0', () => {
-    assert.strictEqual(
-      listHelper.totalLikes(blogsZero),
-      0
-    )
+    assert.strictEqual(listHelper.totalLikes(blogsZero),
+                       0)
   })
 
   test('of list with 1 blog: is number of likes of that blog', () => {
-    assert.strictEqual(
-      listHelper.totalLikes(blogsOne),
-      5
-    )
+    assert.strictEqual(listHelper.totalLikes(blogsOne),
+                       5)
   })
 
   test('of list with >1 blogs: is sum of likes of those blogs', () => {
-    assert.strictEqual(
-      listHelper.totalLikes(blogs),
-      36
-    )
+    assert.strictEqual(listHelper.totalLikes(blogs),
+                       36)
   })
 })
 
 describe('favorite blog', () => {
   test('of list with 0 blogs: is null', () => {
-    assert.deepStrictEqual(
-      listHelper.favoriteBlog(blogsZero),
-      null
-    )
+    assert.deepStrictEqual(listHelper.favoriteBlog(blogsZero),
+                           null)
   })
 
   test('of list with 1 blog: is that blog', () => {
@@ -47,10 +39,8 @@ describe('favorite blog', () => {
       likes: 5,
     }
 
-    assert.deepStrictEqual(
-      listHelper.favoriteBlog(blogsOne),
-      favoriteBlog
-    )
+    assert.deepStrictEqual(listHelper.favoriteBlog(blogsOne),
+                           favoriteBlog)
   })
 
   test('of list with >1 blogs: is one blog with most likes', () => {
@@ -60,10 +50,8 @@ describe('favorite blog', () => {
       likes: 12,
     }
 
-    assert.deepStrictEqual(
-      listHelper.favoriteBlog(blogs),
-      favoriteBlog
-    )
+    assert.deepStrictEqual(listHelper.favoriteBlog(blogs),
+                           favoriteBlog)
   })
 })
 

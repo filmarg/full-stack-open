@@ -34,10 +34,8 @@ describe('when there is initially 1 user in DB', () => {
         .expect('Content-Type', /application\/json/)
 
       const usersAtEnd = await helper.usersInDb()
-      assert.strictEqual(
-        usersAtEnd.length,
-        usersAtStart.length + 1,
-      )
+      assert.strictEqual(usersAtEnd.length,
+                         usersAtStart.length + 1)
 
       const usernames = usersAtEnd.map(u => u.username)
       assert(usernames.includes(helper.user.username))
@@ -52,10 +50,8 @@ describe('when there is initially 1 user in DB', () => {
         .expect(400)
 
       const usersAtEnd = await helper.usersInDb()
-      assert.strictEqual(
-        usersAtStart.length,
-        usersAtEnd.length,
-      )
+      assert.strictEqual(usersAtStart.length,
+                         usersAtEnd.length)
     })
 
     test('fails with correct status code if username too short', async () => {
@@ -67,10 +63,8 @@ describe('when there is initially 1 user in DB', () => {
         .expect(400)
 
       const usersAtEnd = await helper.usersInDb()
-      assert.strictEqual(
-        usersAtStart.length,
-        usersAtEnd.length,
-      )
+      assert.strictEqual(usersAtStart.length,
+                         usersAtEnd.length)
     })
 
     test('fails with correct status code and message if username taken', async () => {
@@ -83,15 +77,11 @@ describe('when there is initially 1 user in DB', () => {
             .expect('Content-Type', /application\/json/)
 
       const usersAtEnd = await helper.usersInDb()
-      assert.strictEqual(
-        usersAtStart.length,
-        usersAtEnd.length
-      )
+      assert.strictEqual(usersAtStart.length,
+                         usersAtEnd.length)
 
-      assert.strictEqual(
-        res.body.error,
-        '`username` must be unique'
-      )
+      assert.strictEqual(res.body.error,
+                         '`username` must be unique')
     })
 
     test('fails with correct status code and message if password length invalid', async () => {
@@ -104,15 +94,11 @@ describe('when there is initially 1 user in DB', () => {
             .expect('Content-Type', /application\/json/)
 
       const usersAtEnd = await helper.usersInDb()
-      assert.strictEqual(
-        usersAtStart.length,
-        usersAtEnd.length
-      )
+      assert.strictEqual(usersAtStart.length,
+                         usersAtEnd.length)
 
-      assert.strictEqual(
-        res.body.error,
-        '`password` length invalid'
-      )
+      assert.strictEqual(res.body.error,
+                         '`password` length invalid')
     })
   })
 })

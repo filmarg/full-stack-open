@@ -21,10 +21,8 @@ describe('with some blogs in the DB', () => {
       .expect('Content-Type', /application\/json/)
 
     // Verify the number
-    assert.strictEqual(
-      res.body.length,
-      helper.initBlogs.length
-    )
+    assert.strictEqual(res.body.length,
+                       helper.initBlogs.length)
   })
 
   test('blogs are returned from DB with "id" property', async () => {
@@ -43,10 +41,8 @@ describe('with some blogs in the DB', () => {
 
       // Verify the number
       const blogsAtEnd = await helper.blogsInDb()
-      assert.strictEqual(
-        blogsAtEnd.length,
-        helper.initBlogs.length + 1
-      )
+      assert.strictEqual(blogsAtEnd.length,
+                         helper.initBlogs.length + 1)
 
       // Verify the contents
       const blogsContents = blogsAtEnd.map(b => b.title)
@@ -60,10 +56,8 @@ describe('with some blogs in the DB', () => {
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
-      assert.strictEqual(
-        res.body.likes,
-        0
-      )
+      assert.strictEqual(res.body.likes,
+                         0)
     })
 
     test('fails with status code 400 if "title" empty', async () => {
@@ -74,10 +68,8 @@ describe('with some blogs in the DB', () => {
 
       // Verify the number
       const blogsAtEnd = await helper.blogsInDb()
-      assert.strictEqual(
-        blogsAtEnd.length,
-        helper.initBlogs.length
-      )
+      assert.strictEqual(blogsAtEnd.length,
+                         helper.initBlogs.length)
     })
 
     test('fails with status code 400 if "url" empty', async () => {
@@ -88,10 +80,8 @@ describe('with some blogs in the DB', () => {
 
       // Verify the number
       const blogsAtEnd = await helper.blogsInDb()
-      assert.strictEqual(
-        blogsAtEnd.length,
-        helper.initBlogs.length
-      )
+      assert.strictEqual(blogsAtEnd.length,
+                         helper.initBlogs.length)
     })
   })
 
@@ -110,10 +100,8 @@ describe('with some blogs in the DB', () => {
         .expect('Content-Type', /application\/json/)
 
       // Verify the contents
-      assert.deepStrictEqual(
-        res.body,
-        blogToUpdate
-      )
+      assert.deepStrictEqual(res.body,
+                             blogToUpdate)
     })
 
     test('fails with status code 400 if "id" invalid', async () => {
@@ -131,10 +119,8 @@ describe('with some blogs in the DB', () => {
 
       // Verify the contents
       const blogsAtEnd = await helper.blogsInDb()
-      assert.deepStrictEqual(
-        blogsAtEnd[4],
-        blogsAtStart[4]
-      )
+      assert.deepStrictEqual(blogsAtEnd[4],
+                             blogsAtStart[4])
     })
 
     test('fails with status code 400 if "id" non-existing', async () => {
@@ -152,10 +138,8 @@ describe('with some blogs in the DB', () => {
 
       // Verify the contents
       const blogsAtEnd = await helper.blogsInDb()
-      assert.deepStrictEqual(
-        blogsAtEnd[4],
-        blogsAtStart[4]
-      )
+      assert.deepStrictEqual(blogsAtEnd[4],
+                             blogsAtStart[4])
     })
 
     test('fails with status code 400 if "likes" invalid', async () => {
@@ -172,10 +156,8 @@ describe('with some blogs in the DB', () => {
 
       // Verify the contents
       const blogsAtEnd = await helper.blogsInDb()
-      assert.deepStrictEqual(
-        blogsAtEnd[4],
-        blogsAtStart[4]
-      )
+      assert.deepStrictEqual(blogsAtEnd[4],
+                             blogsAtStart[4])
     })
   })
   
@@ -189,10 +171,8 @@ describe('with some blogs in the DB', () => {
 
       // Verify the number
       const blogsAtEnd = await helper.blogsInDb()
-      assert.strictEqual(
-        blogsAtEnd.length,
-        helper.initBlogs.length - 1
-      )
+      assert.strictEqual(blogsAtEnd.length,
+                         helper.initBlogs.length - 1)
 
       // Verify the contents
       const blogsContents = blogsAtEnd.map(b => b.title)
@@ -206,10 +186,8 @@ describe('with some blogs in the DB', () => {
 
       // Verify the number
       const blogsAtEnd = await helper.blogsInDb()
-      assert.strictEqual(
-        blogsAtEnd.length,
-        helper.initBlogs.length
-      )
+      assert.strictEqual(blogsAtEnd.length,
+                         helper.initBlogs.length)
     })
   })
 })
