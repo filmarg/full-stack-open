@@ -76,6 +76,29 @@ const user = {
   name: 'Julius Caesar',
 }
 
+const userWithoutUsername = {
+  password: 'venividivici',
+  name: 'Julius Caesar',
+}
+
+const userWithShortUsername = {
+  username: 'jc',
+  password: 'venividivici',
+  name: 'Julius Caesar',
+}
+
+const userWithTakenUsername = {
+  username: 'root',
+  password: 'venividivici',
+  name: 'Marcus Brootus',
+}
+
+const userWithWeakPassword = {
+  username: 'jcTheEmperor',
+  password: 'jc',
+  name: 'Julius Caesar',
+}
+
 const invalidId = 'xXx_$definitely_invalid$_xXx'
 
 const blogsInDb = async () => {
@@ -106,6 +129,10 @@ module.exports = {
   blogWithoutTitle,
   blogWithoutUrl,
   user,
+  userWithoutUsername,
+  userWithShortUsername,
+  userWithTakenUsername,
+  userWithWeakPassword,
   invalidId,
   blogsInDb,
   usersInDb,

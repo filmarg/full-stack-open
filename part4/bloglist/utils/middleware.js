@@ -21,6 +21,9 @@ const errorHandler = (err, req, res, next) => {
     const message = Object.values(err.errors)
       .reduce((acc, e) => acc.concat(e.message, ' | '), '')
     res.status(400).send({ error: message })
+  } else if (err.name === 'MongoServerError' && err.message.includes('E11000 duplicate key error')) {
+    // Uniqueness constraint violation
+    res.status(400).send({ error: '`username` must be unique' })
   } else {
     // The default Express error handler
     next(err)
