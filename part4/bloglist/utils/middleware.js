@@ -19,6 +19,11 @@ const tokenExtractor = (req, res, next) => {
 }
 
 const userExtractor = async (req, res, next) => {
+  // NOTE: Wrap everything besides 'next()' in 'if (req.token) {...}'
+  // if you intend to use this middleware with 'app.use()'.  Except
+  // then you'd lose some of the default 'jwt' errors and would have
+  // to handle them here.  Better just use it selectively.
+
   // Decode the token
   const decodedToken = jwt.verify(req.token, config.SECRET)
   if (!decodedToken.id) {
