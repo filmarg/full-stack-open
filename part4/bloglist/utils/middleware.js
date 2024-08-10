@@ -24,6 +24,11 @@ const errorHandler = (err, req, res, next) => {
   } else if (err.name === 'MongoServerError' && err.message.includes('E11000 duplicate key error')) {
     // Uniqueness constraint violation
     res.status(400).send({ error: '`username` must be unique' })
+  } else if (err.name === 'JsonWebTokenError') {
+    // Token invalid or missing
+    res.status(401).send({ error: 'token invalid' })
+  } else if (err.name === 'TokenExpiredError') {
+    res.status(401).send({ error: 'token expired' })
   } else {
     // The default Express error handler
     next(err)
