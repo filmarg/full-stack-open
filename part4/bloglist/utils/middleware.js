@@ -35,7 +35,7 @@ const errorHandler = (err, req, res, next) => {
     res.status(400).send({ error: '`username` must be unique' })
   } else if (err.name === 'JsonWebTokenError') {
     // Token invalid or missing
-    res.status(401).send({ error: 'token invalid' })
+    res.status(401).send({ error: err.message })
   } else if (err.name === 'TokenExpiredError') {
     res.status(401).send({ error: 'token expired' })
   } else {
