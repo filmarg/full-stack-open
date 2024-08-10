@@ -25,3 +25,13 @@ Content-Type: application/json
     "password": "spacetime",
     "name": "Albert Einstein"
 }
+
+# Log in
+
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "1stein",
+    "password": "spacetime"
+}
