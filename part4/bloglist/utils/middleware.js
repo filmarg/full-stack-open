@@ -6,6 +6,15 @@ const morganLogger = process.env.NODE_ENV !== 'test'
       ? morgan(':method :url :status :res[content-length] - :response-time ms :data')
       : (req, res, next) => next()
 
+const tokenExtractor = (req, res, next) => {
+  // Get the token from the header
+  const authorization = req.get('Authorization')
+  if (authorization && authorization.startsWith('Bearer')) {
+    req.token = authorization.replace('Bearer ', '')
+  }
+  next()
+}
+
 const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
 }
@@ -37,6 +46,7 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
   morganLogger,
+  tokenExtractor,
   unknownEndpoint,
   errorHandler,
 }
