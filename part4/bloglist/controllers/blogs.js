@@ -27,8 +27,11 @@ blogsRouter.delete('/:id', midware.userExtractor, async (req, res) => {
   // Verify the user
   const blog = await Blog.findById(req.params.id)
   const user = req.user
-  if (blog.user._id.toString() === user._id.toString()) {
+  if (blog.user.toString() === user._id.toString()) {
     await Blog.findByIdAndDelete(req.params.id)
+    user.blogs = user.blogs.filter(b => b.toString() !== req.params.id)
+    await user.save()
+
     res.status(204).end()
   } else {
     res.status(401).json({ error: 'no permission: invalid user' })
