@@ -7,6 +7,7 @@ const initBlogs = [
     title: "React patterns",
     author: "Michael Chan",
     url: "https://reactpatterns.com/",
+    user: "66b502d2031c20cb982bcb4c",
     likes: 7,
     __v: 0
   }, {
@@ -14,6 +15,7 @@ const initBlogs = [
     title: "Go To Statement Considered Harmful",
     author: "Edsger W. Dijkstra",
     url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    user: "66b502d2031c20cb982bcb4c",
     likes: 5,
     __v: 0
   }, {
@@ -21,6 +23,7 @@ const initBlogs = [
     title: "Canonical string reduction",
     author: "Edsger W. Dijkstra",
     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    user: "66b502d2031c20cb982bcb4c",
     likes: 12,
     __v: 0
   }, {
@@ -28,6 +31,7 @@ const initBlogs = [
     title: "First class tests",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    user: "66b502d2031c20cb982bcb4c",
     likes: 10,
     __v: 0
   }, {
@@ -35,6 +39,7 @@ const initBlogs = [
     title: "TDD harms architecture",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
+    user: "66b502d2031c20cb982bcb4c",
     likes: 0,
     __v: 0
   }, {
@@ -42,6 +47,7 @@ const initBlogs = [
     title: "Type wars",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+    user: "66b502d2031c20cb982bcb4c",
     likes: 2,
     __v: 0
   },
@@ -71,6 +77,7 @@ const blogWithoutUrl = {
 }
 
 const user = {
+  _id: '66b502d2031c20cb982bcb4c',
   username: 'jcTheEmperor',
   password: 'venividivici',
   name: 'Julius Caesar',

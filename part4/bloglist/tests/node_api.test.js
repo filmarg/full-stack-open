@@ -1,19 +1,27 @@
-const { test, describe, beforeEach, after } = require('node:test')
+const { test, describe, before, beforeEach, after } = require('node:test')
 const assert = require('node:assert')
 const supertest = require('supertest')
 const app = require('../app')
+const config = require('../utils/config')
 const helper = require('./test_helper')
 const mongoose = require('mongoose')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const api = supertest(app)
+
+before(async () => {
+  await User.deleteMany({})
+  const user = new User(helper.user)
+  await user.save()
+})
 
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initBlogs)
 })
 
-describe('with some blogs in the DB', () => {
+describe('with some blogs and 1 user in DB', () => {
   test('blogs are returned as JSON and in correct amount', async () => {
     const res = await api
       .get('/api/blogs')
@@ -35,6 +43,7 @@ describe('with some blogs in the DB', () => {
     test('succeeds with valid data', async () => {
       await api
         .post('/api/blogs')
+        .set('Authorization', config.TEST_TOKEN)
         .send(helper.blog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -52,6 +61,7 @@ describe('with some blogs in the DB', () => {
     test('succeeds without "likes", which defaults to 0', async () => {
       const res = await api
             .post('/api/blogs')
+            .set('Authorization', config.TEST_TOKEN)
             .send(helper.blogWithoutLikes)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -63,6 +73,7 @@ describe('with some blogs in the DB', () => {
     test('fails with status code 400 if "title" empty', async () => {
       await api
         .post('/api/blogs')
+        .set('Authorization', config.TEST_TOKEN)
         .send(helper.blogWithoutTitle)
         .expect(400)
 
@@ -75,8 +86,21 @@ describe('with some blogs in the DB', () => {
     test('fails with status code 400 if "url" empty', async () => {
       await api
         .post('/api/blogs')
+        .set('Authorization', config.TEST_TOKEN)
         .send(helper.blogWithoutUrl)
         .expect(400)
+
+      // Verify the number
+      const blogsAtEnd = await helper.blogsInDb()
+      assert.strictEqual(blogsAtEnd.length,
+                         helper.initBlogs.length)
+    })
+
+    test('fails with status code 401 if token not provided', async () => {
+      await api
+        .post('/api/blogs')
+        .send(helper.blog)
+        .expect(401)
 
       // Verify the number
       const blogsAtEnd = await helper.blogsInDb()
@@ -100,6 +124,7 @@ describe('with some blogs in the DB', () => {
         .expect('Content-Type', /application\/json/)
 
       // Verify the contents
+      blogToUpdate.user = blogToUpdate.user.toString()
       assert.deepStrictEqual(res.body,
                              blogToUpdate)
     })
@@ -167,6 +192,7 @@ describe('with some blogs in the DB', () => {
       
       await api
         .delete(`/api/blogs/${blogToDelete._id}`)
+        .set('Authorization', config.TEST_TOKEN)
         .expect(204)
 
       // Verify the number
@@ -182,6 +208,7 @@ describe('with some blogs in the DB', () => {
     test('fails with status code 400 if "id" invalid', async () => {
       await api
         .delete('/api/blogs/${helper.invalidId}')
+        .set('Authorization', config.TEST_TOKEN)
         .expect(400)
 
       // Verify the number
