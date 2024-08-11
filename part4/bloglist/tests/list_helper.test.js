@@ -55,6 +55,33 @@ describe('favorite blog', () => {
   })
 })
 
+describe('most blogs', () => {
+  test('of list with 0 blogs: is null', () => {
+    assert.strictEqual(listHelper.mostBlogs(blogsZero),
+                       null)
+  })
+
+  test('of list with 1 blog: is author of that blog', () => {
+    const topAuthor = {
+      author: 'Edsger W. Dijkstra',
+      blogs: 1,
+    }
+
+    assert.deepStrictEqual(listHelper.mostBlogs(blogsOne),
+                           topAuthor)
+  })
+
+  test('of list with >1 blogs: is author of greatest number of blogs', () => {
+    const topAuthor = {
+      author: 'Robert C. Martin',
+      blogs: 3,
+    }
+
+    assert.deepStrictEqual(listHelper.mostBlogs(blogs),
+                           topAuthor)
+  })
+})
+
 const blogsZero = []
 
 const blogsOne = [
