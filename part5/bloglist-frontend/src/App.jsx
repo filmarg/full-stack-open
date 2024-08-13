@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
+import Blogs from './components/Blogs'
 import Login from './components/Login'
+import Logout from './components/Logout'
 import loginService from './services/login'
 import blogService from './services/blogs'
 
@@ -8,6 +10,9 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
@@ -21,6 +26,7 @@ const App = () => {
     if (loggedUserJson) {
       const user = JSON.parse(loggedUserJson)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
   
@@ -32,11 +38,25 @@ const App = () => {
     setUser(user)
     setUsername('')
     setPassword('')
+    blogService.setToken(user.token)
   }
   
   const handleLogout = () => {
     window.localStorage.removeItem('loggedUser')
     setUser(null)
+    blogService.setToken(null)
+  }
+  
+  const handlePost = async (e) => {
+    e.preventDefault()
+    
+    const blog = { title, author, url }
+    
+    const newBlog = await blogService.create(blog)
+    setBlogs(blogs.concat(newBlog))
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
   
   const handleChange = (setter) =>
@@ -46,9 +66,11 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Login onSubmit={handleLogin}
-               username={{val: username, onChange: handleChange(setUsername)}}
-               password={{val: password, onChange: handleChange(setPassword)}} />
+        <Login
+          onSubmit={handleLogin}
+          username={{val: username, onChange: handleChange(setUsername)}}
+          password={{val: password, onChange: handleChange(setPassword)}}
+        />
       </div>
     )
   }
@@ -56,13 +78,15 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      <p>
-        <i>[{user.name} logged in] </i>
-        <button onClick={handleLogout}>Log out</button>
-      </p>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      <Logout name={user.name} onClick={handleLogout} />
+      <h3>Post a blog</h3>
+      <BlogForm
+        onSubmit={handlePost}
+        title={{val: title, onChange: handleChange(setTitle)}}
+        author={{val: author, onChange: handleChange(setAuthor)}}
+        url={{val: url, onChange: handleChange(setUrl)}}
+      />
+      <Blogs blogs={blogs} />
     </div>
   )
 }
