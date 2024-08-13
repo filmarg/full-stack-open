@@ -24,7 +24,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJson = window.localStorage.getItem('loggedUser')
+    const loggedUserJson = window.localStorage.getItem('bloglistLoggedUser')
     if (loggedUserJson) {
       const user = JSON.parse(loggedUserJson)
       setUser(user)
@@ -37,7 +37,7 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password })
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      window.localStorage.setItem('bloglistLoggedUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
 
@@ -52,7 +52,7 @@ const App = () => {
   
   const handleLogout = () => {
     // Delete the token (and more) from everywhere
-    window.localStorage.removeItem('loggedUser')
+    window.localStorage.removeItem('bloglistLoggedUser')
     setUser(null)
     blogService.setToken(null)
   }
