@@ -33,8 +33,8 @@ const App = () => {
       <div>
         <h2>Log in to application</h2>
         <Login onSubmit={handleLogin}
-               username={val: username, onChange: handleChange(setUsername)}
-               password={val: password, onChange: handleChange(setPassword)} />
+               username={{val: username, onChange: handleChange(setUsername)}}
+               password={{val: password, onChange: handleChange(setPassword)}} />
       </div>
     )
   }
