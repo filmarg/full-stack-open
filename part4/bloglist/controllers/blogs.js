@@ -41,6 +41,7 @@ blogsRouter.delete('/:id', midware.userExtractor, async (req, res) => {
 blogsRouter.put('/:id', async (req, res) => {
   const opts = { new: true }
   const result = await Blog.findByIdAndUpdate(req.params.id, req.body, opts)
+        .populate('user', { username: 1, name: 1 })
 
   res.json(result)
 })

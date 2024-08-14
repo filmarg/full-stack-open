@@ -67,6 +67,15 @@ const App = () => {
       displayNotification('error', `Failed: ${ex.response.data.error}`, 8000)
     }
   }
+
+  const handleLike = async (blog, id) => {
+    try {
+      const newBlog = await blogService.update(id, blog)
+      setBlogs(blogs.map(b => b.id !== newBlog.id ? b : newBlog))
+    } catch (ex) {
+      displayNotification('error', `Failed: ${ex.response.data.error}`, 8000)
+    }
+  }
   
   const handleChange = (setter) =>
         (e) => setter(e.target.value)
@@ -98,7 +107,7 @@ const App = () => {
       <Togglable label="Create new blog" ref={blogFormRef}>
         <BlogForm onSubmit={handlePost} />
       </Togglable>
-      <Blogs blogs={blogs} />
+      <Blogs blogs={blogs} onLike={handleLike} />
     </div>
   )
 }
