@@ -13,9 +13,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [blogs, setBlogs] = useState([])
   const blogFormRef = useRef()
 
@@ -59,18 +56,10 @@ const App = () => {
     blogService.setToken(null)
   }
   
-  const handlePost = async (e) => {
-    e.preventDefault()
-    
-    const blog = { title, author, url }
-    
+  const handlePost = async (blog) => {
     try {
       const newBlog = await blogService.create(blog)
       setBlogs(blogs.concat(newBlog))
-
-      setTitle('')
-      setAuthor('')
-      setUrl('')
 
       blogFormRef.current.handleToggle()
       displayNotification('confirmation', `Blog added: ${newBlog.title}`, 5000)
@@ -107,12 +96,7 @@ const App = () => {
       <Notification info={info} />
       <Logout name={user.name} onClick={handleLogout} />
       <Togglable label="Create new blog" ref={blogFormRef}>
-        <BlogForm
-          onSubmit={handlePost}
-          title={{val: title, onChange: handleChange(setTitle)}}
-          author={{val: author, onChange: handleChange(setAuthor)}}
-          url={{val: url, onChange: handleChange(setUrl)}}
-        />
+        <BlogForm onSubmit={handlePost} />
       </Togglable>
       <Blogs blogs={blogs} />
     </div>
