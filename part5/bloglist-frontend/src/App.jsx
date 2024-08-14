@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import Blogs from './components/Blogs'
 import Login from './components/Login'
@@ -16,6 +17,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [blogs, setBlogs] = useState([])
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService
@@ -70,6 +72,7 @@ const App = () => {
       setAuthor('')
       setUrl('')
 
+      blogFormRef.current.handleToggle()
       displayNotification('confirmation', `Blog added: ${newBlog.title}`, 5000)
     } catch (ex) {
       displayNotification('error', `Failed: ${ex.response.data.error}`, 8000)
@@ -103,13 +106,14 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification info={info} />
       <Logout name={user.name} onClick={handleLogout} />
-      <h3>Post a blog</h3>
-      <BlogForm
-        onSubmit={handlePost}
-        title={{val: title, onChange: handleChange(setTitle)}}
-        author={{val: author, onChange: handleChange(setAuthor)}}
-        url={{val: url, onChange: handleChange(setUrl)}}
-      />
+      <Togglable label="Create new blog" ref={blogFormRef}>
+        <BlogForm
+          onSubmit={handlePost}
+          title={{val: title, onChange: handleChange(setTitle)}}
+          author={{val: author, onChange: handleChange(setAuthor)}}
+          url={{val: url, onChange: handleChange(setUrl)}}
+        />
+      </Togglable>
       <Blogs blogs={blogs} />
     </div>
   )
