@@ -12,7 +12,7 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
     marginBottom: 5,
   }
   const showOnVisible = { display: visible ? '' : 'none' }
-  
+
   const handleToggle = () => {
     setVisible(!visible)
   }
@@ -23,7 +23,7 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
       user: blog.user.id,
       likes: blog.likes + 1,
       id: undefined,
-    }, blog.id)    
+    }, blog.id)
   }
 
   const handleDelete = () => {
@@ -31,7 +31,7 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
       onDelete(blog.id)
     }
   }
-  
+
   return (
     <div style={blogStyle}>
       <div>

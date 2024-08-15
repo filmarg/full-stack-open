@@ -2,7 +2,7 @@ const Notification = ({ info }) => {
   if (!info.message){
     return null
   }
-  
+
   const color = info.type === 'error' ? 'red' : 'green'
   const style = {
     color,
@@ -13,7 +13,7 @@ const Notification = ({ info }) => {
     padding: 10,
     marginBottom: 10,
   }
-  
+
   return (
     <div style={style}>
       {info.message}

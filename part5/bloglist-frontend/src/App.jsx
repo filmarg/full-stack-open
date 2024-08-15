@@ -30,7 +30,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  
+
   const handleLogin = async (e) => {
     e.preventDefault()
 
@@ -48,14 +48,14 @@ const App = () => {
       displayNotification('error', `Failed: ${ex.response.data.error}`, 8000)
     }
   }
-  
+
   const handleLogout = () => {
     // Delete the token (and more) from everywhere
     window.localStorage.removeItem('bloglistLoggedUser')
     setUser(null)
     blogService.setToken(null)
   }
-  
+
   const handlePost = async (blog) => {
     try {
       const newBlog = await blogService.create(blog)
@@ -85,18 +85,18 @@ const App = () => {
       displayNotification('error', `Failed: ${ex.response.data.error}`, 8000)
     }
   }
-  
+
   const handleChange = (setter) =>
-        (e) => setter(e.target.value)
-  
+    (e) => setter(e.target.value)
+
   const displayNotification = (type, message, delay) => {
     setInfo({ message, type })
     setTimeout(() => setInfo({ message: null }), delay)
   }
 
   const sortByLikes = (arr) =>
-        arr.toSorted((a, b) => b.likes - a.likes)
-  
+    arr.toSorted((a, b) => b.likes - a.likes)
+
   if (!user) {
     return (
       <div>
@@ -104,13 +104,13 @@ const App = () => {
         <Notification info={info} />
         <Login
           onSubmit={handleLogin}
-          username={{val: username, onChange: handleChange(setUsername)}}
-          password={{val: password, onChange: handleChange(setPassword)}}
+          username={{ val: username, onChange: handleChange(setUsername) }}
+          password={{ val: password, onChange: handleChange(setPassword) }}
         />
       </div>
     )
   }
-  
+
   return (
     <div>
       <h2>Blogs</h2>

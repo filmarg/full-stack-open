@@ -5,7 +5,7 @@ const Togglable = forwardRef((props, refs) => {
 
   const hideOnVisible = { display: visible ? 'none' : '' }
   const showOnVisible = { display: visible ? '' : 'none' }
-  
+
   const handleToggle = () => {
     setVisible(!visible)
   }
@@ -13,7 +13,7 @@ const Togglable = forwardRef((props, refs) => {
   useImperativeHandle(refs, () => {
     return { handleToggle }
   })
-  
+
   return (
     <div>
       <div style={hideOnVisible}>
@@ -26,5 +26,7 @@ const Togglable = forwardRef((props, refs) => {
     </div>
   )
 })
+
+Togglable.displayName = 'Togglable'
 
 export default Togglable

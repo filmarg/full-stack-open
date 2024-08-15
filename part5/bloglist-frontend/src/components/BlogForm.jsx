@@ -4,20 +4,20 @@ const BlogForm = ({ onSubmit }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
     onSubmit({ title, author, url })
-    
+
     setTitle('')
     setAuthor('')
     setUrl('')
   }
-  
+
   const handleChange = (setter) =>
-        (e) => setter(e.target.value)
-  
+    (e) => setter(e.target.value)
+
   return (
     <div>
       <h3>Post a blog</h3>
