@@ -76,6 +76,15 @@ const App = () => {
       displayNotification('error', `Failed: ${ex.response.data.error}`, 8000)
     }
   }
+
+  const handleDelete = async (id) => {
+    try {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(b => b.id !== id))
+    } catch (ex) {
+      displayNotification('error', `Failed: ${ex.response.data.error}`, 8000)
+    }
+  }
   
   const handleChange = (setter) =>
         (e) => setter(e.target.value)
@@ -110,7 +119,12 @@ const App = () => {
       <Togglable label="Create new blog" ref={blogFormRef}>
         <BlogForm onSubmit={handlePost} />
       </Togglable>
-      <Blogs blogs={blogs} onLike={handleLike} />
+      <Blogs
+        blogs={blogs}
+        user={user}
+        onLike={handleLike}
+        onDelete={handleDelete}
+      />
     </div>
   )
 }
