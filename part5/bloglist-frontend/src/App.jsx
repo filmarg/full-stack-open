@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     blogService
       .getAll()
-      .then((blogs) => setBlogs(blogs))
+      .then((blogs) => setBlogs(sortByLikes(blogs)))
   }, [])
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const App = () => {
   const handleLike = async (blog, id) => {
     try {
       const newBlog = await blogService.update(id, blog)
-      setBlogs(blogs.map(b => b.id !== newBlog.id ? b : newBlog))
+      setBlogs(sortByLikes(blogs.map(b => b.id !== newBlog.id ? b : newBlog)))
     } catch (ex) {
       displayNotification('error', `Failed: ${ex.response.data.error}`, 8000)
     }
@@ -84,6 +84,9 @@ const App = () => {
     setInfo({ message, type })
     setTimeout(() => setInfo({ message: null }), delay)
   }
+
+  const sortByLikes = (arr) =>
+        arr.toSorted((a, b) => b.likes - a.likes)
   
   if (!user) {
     return (
