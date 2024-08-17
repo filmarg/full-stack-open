@@ -19,17 +19,18 @@ describe('<Blog />', () => {
     username: 'jon_doe',
   }
   
+  let cont
   const mockLikeHandler = vi.fn()
   
   beforeEach(() => {
     mockLikeHandler.mockClear()
-    render(
+    cont = render(
       <Blog
         blog={blog}
         user={appUser}
         onLike={mockLikeHandler}
       />
-    )
+    ).container
   })
   
   test('renders title and author only', () => {
@@ -41,7 +42,7 @@ describe('<Blog />', () => {
 
   test('renders URL and likes after clicking "View" button', async () => {
     const user = userEvent.setup()
-    const button = screen.getByText('View')
+    const button = cont.querySelector('#viewButton')
     await user.click(button)
 
     screen.getByText('URL: https://www.norvig.com/21-days.html')
@@ -52,10 +53,10 @@ describe('<Blog />', () => {
     const user = userEvent.setup()
 
     // Show details and the "like" button
-    const viewButton = screen.getByText('View')
+    const viewButton = cont.querySelector('#viewButton')
     await user.click(viewButton)
     // Click the "like" button
-    const likeButton = screen.getByText('Like')
+    const likeButton = cont.querySelector('#likeButton')
     await user.click(likeButton)
     await user.click(likeButton)
 

@@ -35,14 +35,18 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
   return (
     <div style={blogStyle}>
       <div>
-        <button onClick={handleToggle}>{visible ? 'Hide' : 'View'}</button>
+        <button id="viewButton" onClick={handleToggle}>
+          {visible ? 'Hide' : 'View'}
+        </button>
         {blog.title}—{blog.author}
       </div>
       <div style={showOnVisible}>
         <div>URL: {blog.url}</div>
         <div>
           Likes: {blog.likes}
-          <button onClick={handleLike}>Like</button>
+          <button id="likeButton" onClick={handleLike}>
+            Like
+          </button>
         </div>
         <div>User: {blog.user.name}</div>
         <div>
