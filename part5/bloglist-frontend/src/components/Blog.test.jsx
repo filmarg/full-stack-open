@@ -36,6 +36,8 @@ describe('<Blog />', () => {
   test('renders title and author only', () => {
     screen.getByText('Teach Yourself Programming in Ten Years—Peter Norvig')
 
+    const div = cont.querySelector('#blogDetails')
+    expect(div).toHaveStyle('display: none')
     const element = screen.queryByText('https://www.norvig.com/21-days.html')
     expect(element).toBeNull()
   })
@@ -45,6 +47,8 @@ describe('<Blog />', () => {
     const button = cont.querySelector('#viewButton')
     await user.click(button)
 
+    const div = cont.querySelector('#blogDetails')
+    expect(div).not.toHaveStyle('display: none')
     screen.getByText('URL: https://www.norvig.com/21-days.html')
     screen.getByText('Likes: 5')
   })

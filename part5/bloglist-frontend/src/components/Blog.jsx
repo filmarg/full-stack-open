@@ -40,7 +40,7 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
         </button>
         {blog.title}—{blog.author}
       </div>
-      <div style={showOnVisible}>
+      <div id="blogDetails" style={showOnVisible}>
         <div>URL: {blog.url}</div>
         <div>
           Likes: {blog.likes}
