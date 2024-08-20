@@ -16,7 +16,8 @@ blogsRouter.post('/', midware.userExtractor, async (req, res) => {
     user: user._id,
   })
   
-  const result = await blog.save()
+  let result = await blog.save()
+  result = await result.populate('user', { username: 1, name: 1 })
   user.blogs = user.blogs.concat(result._id)
   await user.save()
 
