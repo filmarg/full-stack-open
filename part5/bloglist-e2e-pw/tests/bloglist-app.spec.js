@@ -104,6 +104,28 @@ describe('Blog app', () => {
 
         await expect(div.getByRole('button', { name: 'Delete' })).not.toBeVisible()
       })
+
+      test('blogs are arranged by likes in descending order', async ({ page }) => {
+        // I had to use codegen to alleviate my suffering.  Looks
+        // inconsistent but it works, so whatever.
+        // 
+        // Press "View" buttons
+        await page.locator('div').filter({ hasText: /^ViewTeach Yourself Programming in Ten Years—Peter Norvig$/ }).getByRole('button', { name: 'View' }).click();
+        await page.locator('div').filter({ hasText: /^View2nd blog—Peter Norvig$/ }).getByRole('button', { name: 'View' }).click()
+        await page.getByRole('button', { name: 'View' }).click();
+        // Press "Like" buttons: 2 for "2nd" and 1 for "3rd"
+        await page.getByRole('button', { name: 'Like' }).nth(1).click();
+        await page.locator('div').filter({ hasText: /^Likes: 1Like$/ }).getByRole('button', { name: 'Like' }).click()
+        await page.getByRole('button', { name: 'Like' }).nth(2).click();
+
+        const blogs = await page.locator('div').filter({ has: page.getByRole('button', { name: 'Hide' }) }).all()
+        await expect(blogs[0]).toContainText('2nd blog')
+        await expect(blogs[0]).toContainText('Likes: 2')
+        await expect(blogs[1]).toContainText('3rd blog')
+        await expect(blogs[0]).toContainText('Likes: 1')
+        await expect(blogs[2]).toContainText('Teach Yourself Programming')
+        await expect(blogs[0]).toContainText('Likes: 0')
+      })
     })
   })
 })
