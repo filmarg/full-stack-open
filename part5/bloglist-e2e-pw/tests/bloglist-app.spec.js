@@ -12,6 +12,13 @@ describe('Blog app', () => {
         name: 'Albert Einstein',
       }
     })
+    await request.post('/api/users/', {
+      data: {
+        username: 'ideas_man',
+        password: 'ilovesocrates',
+        name: 'Plato',
+      }
+    })
 
     await page.goto('/')
   })
@@ -85,6 +92,17 @@ describe('Blog app', () => {
         await div.getByRole('button', { name: 'Delete' }).click()
 
         await expect(page.getByText(blog.title)).not.toBeVisible()
+      })
+
+      test('only poster of blog can see its "Delete" button', async ({ page }) => {
+        // Log out and in as someone else
+        await page.getByRole('button', { name: 'Log out' }).click()
+        await login(page, 'ideas_man', 'ilovesocrates')
+        
+        const div = await page.getByText(blog.title).locator('..')
+        await div.getByRole('button', { name: 'View' }).click()
+
+        await expect(div.getByRole('button', { name: 'Delete' })).not.toBeVisible()
       })
     })
   })
