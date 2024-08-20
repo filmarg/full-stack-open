@@ -60,5 +60,22 @@ describe('Blog app', () => {
       await createBlog(page, blog)
       await expect(page.getByText(`${blog.title}—${blog.author}`)).toBeVisible()
     })
+
+    describe('And several blogs exist', () => {
+      beforeEach(async ({ page }) => {
+        await createBlog(page, blog)
+        await createBlog(page, { ...blog, title: '2nd blog' })
+        await createBlog(page, { ...blog, title: '3rd blog' })
+      })
+
+      test('blog can be liked', async ({ page }) => {
+        const div = await page.getByText(blog.title).locator('..')
+
+        await div.getByRole('button', { name: 'View' }).click()
+        await div.getByRole('button', { name: 'Like' }).click()
+
+        await expect(page.getByText('Likes: 1')).toBeVisible()
+      })
+    })
   })
 })
