@@ -13,7 +13,7 @@ const Anecdote = ({ anecdote, onClick }) => (
   </div>
 )
 
-const AnecdoteList = () => {
+const AnecdoteList = ({ displayNotification }) => {
   const dispatch = useDispatch()
   const anecdotes = useSelector(({ anecdotes, filter }) =>
     anecdotes.filter(a =>
@@ -21,9 +21,10 @@ const AnecdoteList = () => {
     )
   )
 
-  const vote = (id) => {
+  const vote = ({ id, content }) => {
     // console.log('vote', id)
     dispatch(voteFor(id))
+    displayNotification(`You voted for "${content}"`)
   }
 
   return (
@@ -34,7 +35,7 @@ const AnecdoteList = () => {
          <Anecdote
            key={anecdote.id}
            anecdote={anecdote}
-           onClick={() => vote(anecdote.id)}
+           onClick={() => vote(anecdote)}
          />
        )}
     </div>
