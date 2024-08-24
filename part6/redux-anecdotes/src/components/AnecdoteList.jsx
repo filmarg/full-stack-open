@@ -21,10 +21,10 @@ const AnecdoteList = ({ displayNotification }) => {
     )
   )
 
-  const vote = ({ id, content }) => {
+  const vote = (anecdote) => {
     // console.log('vote', id)
-    dispatch(voteFor(id))
-    displayNotification(`You voted for "${content}"`)
+    dispatch(voteFor(anecdote))
+    displayNotification(`You voted for "${anecdote.content}"`)
   }
 
   return (
