@@ -10,7 +10,12 @@ const createAnecdote = (anecdote) => {
   return axios.post(baseUrl, anecdote).then(res => res.data)
 }
 
+const updateAnecdote = (anecdote) => {
+  return axios.put(`${baseUrl}/${anecdote.id}`, anecdote).then(res => res.data)
+}
+
 export {
   getAnecdotes,
   createAnecdote,
+  updateAnecdote,
 }

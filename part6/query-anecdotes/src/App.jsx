@@ -1,15 +1,11 @@
 import AnecdoteForm from './components/AnecdoteForm'
+import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
 
 import { useQuery } from '@tanstack/react-query'
 import { getAnecdotes } from './requests'
 
 const App = () => {
-  
-  const handleVote = (anecdote) => {
-    console.log('vote')
-  }
-  
   const res = useQuery({
     queryKey: ['anecdotes'],
     queryFn: getAnecdotes,
@@ -31,18 +27,7 @@ const App = () => {
     
       <Notification />
       <AnecdoteForm />
-    
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
-          </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => handleVote(anecdote)}>vote</button>
-          </div>
-        </div>
-      )}
+      <AnecdoteList anecdotes={anecdotes} />
     </div>
   )
 }
