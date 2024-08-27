@@ -11,7 +11,11 @@ const AnecdoteForm = () => {
     onSuccess: (newAnecdote) => {
       const anecdotes = qc.getQueryData(['anecdotes'])
       qc.setQueryData(['anecdotes'], anecdotes.concat(newAnecdote))
-    }
+    },
+    onError: (err) => {
+      dispatch({ type: 'SET', payload: `${err.response.data.error}` })
+      setTimeout(() => dispatch({ type: 'REMOVE' }), 5000)
+    },
   })
   
   const onCreate = (e) => {
