@@ -25,15 +25,17 @@ const AnecdoteList = ({ anecdotes }) => {
     onSuccess: (updatedAnecdote) => {
       const anecdotes = qc.getQueryData(['anecdotes'])
       qc.setQueryData(['anecdotes'], anecdotes.map(a =>
-        a.id !== updatedAnecdote.id ? a : updatedAnecdote)
-      )
+        a.id !== updatedAnecdote.id ? a : updatedAnecdote))
     },
   })
   
   const handleVote = (anecdote) => {
-    updateAnecdoteMut.mutate({ ...anecdote, votes: anecdote.votes + 1 })
-    dispatch({ type: 'SET', payload: `Voted for "${anecdote.content}"` })
-    setTimeout(() => dispatch({ type: 'REMOVE' }), 5000)
+    updateAnecdoteMut.mutate({ ...anecdote, votes: anecdote.votes + 1 }, {
+      onSuccess: () => {
+        dispatch({ type: 'SET', payload: `Voted for "${anecdote.content}"` })
+        setTimeout(() => dispatch({ type: 'REMOVE' }), 5000)
+      }
+    })
   }
 
   return (

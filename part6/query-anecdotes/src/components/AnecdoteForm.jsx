@@ -24,9 +24,12 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
 
-    newAnecdoteMut.mutate({ content, votes: 0 })
-    dispatch({ type: 'SET', payload: `Created "${content}"` })
-    setTimeout(() => dispatch({ type: 'REMOVE' }), 5000)
+    newAnecdoteMut.mutate({ content, votes: 0 }, {
+      onSuccess: () => {
+        dispatch({ type: 'SET', payload: `Created "${content}"` })
+        setTimeout(() => dispatch({ type: 'REMOVE' }), 5000)
+      }
+    })
   }
 
   return (
