@@ -1,0 +1,43 @@
+# -*- restclient -*-
+# 
+# REST client for Emacs:
+# https://github.com/pashky/restclient.el
+
+# Post a blog
+
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjFzdGVpbiIsImlkIjoiNjZiNTAyZDIwMzFjMjBjYjk4MmJjYjRjIiwiaWF0IjoxNzIzMjg0MzQ1LCJleHAiOjE3MjMyODc5NDV9.poFyxalHT_P-IYRMbREYi9YEy1dSHIgm2KTxvFLFEdY
+
+{
+    "title": "Teach Yourself Programming in Ten Years",
+    "author": "Peter Norvig",
+    "url": "https://www.norvig.com/21-days.html",
+    "likes": 5
+}
+
+# Delete a blog
+
+DELETE http://localhost:3001/api/blogs/66b7929b3d6a94fec5faa0ef
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjFzdGVpbiIsImlkIjoiNjZiNTAyZDIwMzFjMjBjYjk4MmJjYjRjIiwiaWF0IjoxNzIzMzA3OTE2LCJleHAiOjE3MjMzMTE1MTZ9.oeFdKdGHJ-MEA9m3Z7qn3Z34_sogWxbOiz5MAo1HM-U
+
+# Add a user
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "1stein",
+    "password": "spacetime",
+    "name": "Albert Einstein"
+}
+
+# Log in
+
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "1stein",
+    "password": "spacetime"
+}
