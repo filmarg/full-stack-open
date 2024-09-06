@@ -1,4 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { setNotification } from './reducers/notificationReducer';
+
 import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import BlogForm from './components/BlogForm';
@@ -9,7 +13,7 @@ import loginService from './services/login';
 import blogService from './services/blogs';
 
 const App = () => {
-  const [info, setInfo] = useState({ message: null });
+  const dispatch = useDispatch();
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -41,9 +45,11 @@ const App = () => {
       setUsername('');
       setPassword('');
 
-      displayNotification('confirmation', `${user.name} logged in`, 3000);
+      dispatch(setNotification('confirmation', `${user.name} logged in`, 3));
     } catch (ex) {
-      displayNotification('error', `Failed: ${ex.response.data.error}`, 8000);
+      dispatch(
+        setNotification('error', `Failed: ${ex.response.data.error}`, 8),
+      );
     }
   };
 
@@ -60,9 +66,13 @@ const App = () => {
       setBlogs(blogs.concat(newBlog));
 
       blogFormRef.current.handleToggle();
-      displayNotification('confirmation', `Blog added: ${newBlog.title}`, 5000);
+      dispatch(
+        setNotification('confirmation', `Blog added: ${newBlog.title}`, 5),
+      );
     } catch (ex) {
-      displayNotification('error', `Failed: ${ex.response.data.error}`, 8000);
+      dispatch(
+        setNotification('error', `Failed: ${ex.response.data.error}`, 8),
+      );
     }
   };
 
@@ -73,7 +83,9 @@ const App = () => {
         sortByLikes(blogs.map((b) => (b.id !== newBlog.id ? b : newBlog))),
       );
     } catch (ex) {
-      displayNotification('error', `Failed: ${ex.response.data.error}`, 8000);
+      dispatch(
+        setNotification('error', `Failed: ${ex.response.data.error}`, 8),
+      );
     }
   };
 
@@ -82,16 +94,13 @@ const App = () => {
       await blogService.remove(id);
       setBlogs(blogs.filter((b) => b.id !== id));
     } catch (ex) {
-      displayNotification('error', `Failed: ${ex.response.data.error}`, 8000);
+      dispatch(
+        setNotification('error', `Failed: ${ex.response.data.error}`, 8),
+      );
     }
   };
 
   const handleChange = (setter) => (e) => setter(e.target.value);
-
-  const displayNotification = (type, message, delay) => {
-    setInfo({ message, type });
-    setTimeout(() => setInfo({ message: null }), delay);
-  };
 
   const sortByLikes = (arr) => arr.toSorted((a, b) => b.likes - a.likes);
 
@@ -99,7 +108,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification info={info} />
+        <Notification />
         <Login
           onSubmit={handleLogin}
           username={{ val: username, onChange: handleChange(setUsername) }}
@@ -112,7 +121,7 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      <Notification info={info} />
+      <Notification />
       <Logout name={user.name} onClick={handleLogout} />
       <Togglable label="Create new blog" ref={blogFormRef}>
         <BlogForm onSubmit={handlePost} />
