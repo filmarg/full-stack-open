@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
-const Blog = ({ blog, user, onLike, onDelete }) => {
+import { useDispatch } from 'react-redux';
+import { setNotification } from '../reducers/notificationReducer';
+import { likeBlog, deleteBlog } from '../reducers/blogReducer';
+
+const Blog = ({ blog, user }) => {
+  const dispatch = useDispatch();
+
   const [visible, setVisible] = useState(false);
 
   const blogStyle = {
@@ -17,21 +23,25 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
     setVisible(!visible);
   };
 
-  const handleLike = () => {
-    onLike(
-      {
-        ...blog,
-        user: blog.user.id,
-        likes: blog.likes + 1,
-        id: undefined,
-      },
-      blog.id,
-    );
+  const handleLike = async () => {
+    try {
+      await dispatch(likeBlog(blog));
+    } catch (ex) {
+      dispatch(
+        setNotification('error', `Failed: ${ex.response.data.error}`, 8),
+      );
+    }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (window.confirm(`Remove "${blog.title}" by ${blog.author}?`)) {
-      onDelete(blog.id);
+      try {
+        await dispatch(deleteBlog(blog.id));
+      } catch (ex) {
+        dispatch(
+          setNotification('error', `Failed: ${ex.response.data.error}`, 8),
+        );
+      }
     }
   };
 

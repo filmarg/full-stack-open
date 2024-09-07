@@ -67,32 +67,6 @@ const App = () => {
     blogService.setToken(null);
   };
 
-  const handleLike = async (blog, id) => {
-    try {
-      const newBlog = await blogService.update(id, blog);
-      setBlogs(
-        sortByLikes(blogs.map((b) => (b.id !== newBlog.id ? b : newBlog))),
-      );
-    } catch (ex) {
-      dispatch(
-        setNotification('error', `Failed: ${ex.response.data.error}`, 8),
-      );
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await blogService.remove(id);
-      setBlogs(blogs.filter((b) => b.id !== id));
-    } catch (ex) {
-      dispatch(
-        setNotification('error', `Failed: ${ex.response.data.error}`, 8),
-      );
-    }
-  };
-
-  const sortByLikes = (arr) => arr.toSorted((a, b) => b.likes - a.likes);
-
   if (!user) {
     return (
       <div>
@@ -111,7 +85,7 @@ const App = () => {
       <Togglable label="Create new blog" ref={blogFormRef}>
         <BlogForm blogFormRef={blogFormRef} />
       </Togglable>
-      <Blogs user={user} onLike={handleLike} onDelete={handleDelete} />
+      <Blogs user={user} />
     </div>
   );
 };
