@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNotification } from '../reducers/notificationReducer';
 import { likeBlog, deleteBlog } from '../reducers/blogReducer';
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const [visible, setVisible] = useState(false);
 

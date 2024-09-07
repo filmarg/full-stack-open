@@ -1,28 +1,20 @@
 import { useSelector } from 'react-redux';
 
 import Blog from './Blog';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-const Blogs = ({ user }) => {
+const Blogs = () => {
   const blogs = useSelector((state) => state.blogs);
-
-  // const blogs = useSelector(({ blogs }) =>
-  //   sortByLikes(blogs.map((b) => (b.id !== newBlog.id ? b : newBlog)))
-  // );
-  //
-  // const sortByLikes = (arr) => arr.toSorted((a, b) => b.likes - a.likes);
 
   return (
     <div>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} user={user} />
+        <Blog key={blog.id} blog={blog} />
       ))}
     </div>
   );
 };
 
-Blogs.propTypes = {
-  user: PropTypes.object.isRequired,
-};
+// Blogs.propTypes = {};
 
 export default Blogs;
