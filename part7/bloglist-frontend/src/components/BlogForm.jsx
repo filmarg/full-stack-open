@@ -1,18 +1,44 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useField } from '../hooks/forms';
 
-const BlogForm = ({ onSubmit }) => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
+import { setNotification } from '../reducers/notificationReducer';
+import { createBlog } from '../reducers/blogReducer';
 
-  const handleSubmit = (e) => {
+const BlogForm = ({ blogFormRef }) => {
+  const dispatch = useDispatch();
+
+  const title = useField('text');
+  const author = useField('text');
+  const url = useField('text');
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    onSubmit({ title, author, url });
+    try {
+      // For info on how 'await' works with 'dispatch()' see
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#control_flow_effects_of_await
+      await dispatch(
+        createBlog({
+          title: title.attrs.value,
+          author: author.attrs.value,
+          url: url.attrs.value,
+        }),
+      );
 
-    setTitle('');
-    setAuthor('');
-    setUrl('');
+      blogFormRef.current.handleToggle();
+      dispatch(
+        setNotification('confirmation', `Blog added: ${title.attrs.value}`, 5),
+      );
+
+      title.reset();
+      author.reset();
+      url.reset();
+    } catch (ex) {
+      dispatch(
+        setNotification('error', `Failed: ${ex.response.data.error}`, 8),
+      );
+    }
   };
 
   const handleChange = (setter) => (e) => setter(e.target.value);
@@ -23,30 +49,15 @@ const BlogForm = ({ onSubmit }) => {
       <form onSubmit={handleSubmit}>
         <div>
           Title:
-          <input
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={handleChange(setTitle)}
-          />
+          <input placeholder="Title" {...title.attrs} />
         </div>
         <div>
           Author:
-          <input
-            type="text"
-            placeholder="Author"
-            value={author}
-            onChange={handleChange(setAuthor)}
-          />
+          <input placeholder="Author" {...author.attrs} />
         </div>
         <div>
           URL:
-          <input
-            type="text"
-            placeholder="URL"
-            value={url}
-            onChange={handleChange(setUrl)}
-          />
+          <input placeholder="URL" {...url.attrs} />
         </div>
         <button id="postButton" type="submit">
           Post

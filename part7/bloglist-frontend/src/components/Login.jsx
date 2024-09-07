@@ -2,15 +2,11 @@ const Login = ({ onSubmit, username, password }) => (
   <form onSubmit={onSubmit}>
     <div>
       Username:
-      <input type="text" value={username.val} onChange={username.onChange} />
+      <input {...username.attrs} />
     </div>
     <div>
       Password:
-      <input
-        type="password"
-        value={password.val}
-        onChange={password.onChange}
-      />
+      <input {...password.attrs} />
     </div>
     <button type="submit">Log in</button>
   </form>
