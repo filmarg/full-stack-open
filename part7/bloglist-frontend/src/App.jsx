@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import BlogsView from './components/BlogsView';
 import UsersView from './components/UsersView';
+import UserView from './components/UserView';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -34,6 +35,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<BlogsView />} />
         <Route path="/users" element={<UsersView />} />
+        <Route path="/users/:id" element={<UserView />} />
       </Routes>
     </div>
   );
