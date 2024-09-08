@@ -56,7 +56,7 @@ blogsRouter.post('/:id/comments', async (req, res) => {
   blog.comments = blog.comments.concat({ content: req.body.comment });
   await blog.save();
 
-  res.status(201).json({ comment: blog.comments[blog.comments.length - 1] });
+  res.status(201).json(blog.comments[blog.comments.length - 1]);
 });
 
 module.exports = blogsRouter;

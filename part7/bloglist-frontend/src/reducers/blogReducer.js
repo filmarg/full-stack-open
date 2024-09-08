@@ -63,9 +63,20 @@ const deleteBlog = (id) => {
   };
 };
 
+const postComment = (blog, comment) => {
+  return async (dispatch) => {
+    const resComment = await blogService.comment(blog.id, comment);
+    const updatedBlog = {
+      ...blog,
+      comments: blog.comments.concat(resComment),
+    };
+    dispatch(updateBlog(updatedBlog));
+  };
+};
+
 const sortByLikes = (arr) => arr.toSorted((a, b) => b.likes - a.likes);
 
-export { initializeBlogs, createBlog, likeBlog, deleteBlog };
+export { initializeBlogs, createBlog, likeBlog, deleteBlog, postComment };
 export const { setBlogs, appendBlog, updateBlog, removeBlog, sortBlogs } =
   blogSlice.actions;
 export default blogSlice.reducer;
