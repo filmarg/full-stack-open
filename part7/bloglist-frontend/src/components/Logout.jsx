@@ -10,10 +10,10 @@ const Logout = () => {
   };
 
   return (
-    <div>
+    <>
       <i>[{name} logged in] </i>
       <button onClick={handleClick}>Log out</button>
-    </div>
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import Notification from './components/Notification';
 import Login from './components/Login';
-import Logout from './components/Logout';
+import Menu from './components/Menu';
 import BlogsView from './components/BlogsView';
 import UsersView from './components/UsersView';
 import UserView from './components/UserView';
@@ -30,9 +30,9 @@ const App = () => {
 
   return (
     <div>
-      <h2>Blogs</h2>
+      <Menu />
+      <h2>Blog app</h2>
       <Notification />
-      <Logout />
       <Routes>
         <Route path="/" element={<BlogsView />} />
         <Route path="/users" element={<UsersView />} />
