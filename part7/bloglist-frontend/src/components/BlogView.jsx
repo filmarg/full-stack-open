@@ -58,6 +58,16 @@ const BlogView = () => {
           <button onClick={handleDelete}>Delete</button>
         )}
       </div>
+      <h4>Comments</h4>
+      {blog.comments.length ? (
+        <ul>
+          {blog.comments.map((comment) => (
+            <li key={comment._id}>{comment.content}</li>
+          ))}
+        </ul>
+      ) : (
+        <i>No comments yet</i>
+      )}
     </div>
   );
 };

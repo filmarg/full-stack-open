@@ -49,4 +49,14 @@ blogsRouter.put('/:id', async (req, res) => {
   res.json(result);
 });
 
+blogsRouter.post('/:id/comments', async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+
+  // It automatically adds an ObjectId to the comment
+  blog.comments = blog.comments.concat({ content: req.body.comment });
+  await blog.save();
+
+  res.status(201).json({ comment: blog.comments[blog.comments.length - 1] });
+});
+
 module.exports = blogsRouter;

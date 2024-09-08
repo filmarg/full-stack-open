@@ -18,6 +18,14 @@ const blogSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  comments: [
+    {
+      content: {
+        type: String,
+        minLength: 3,
+      },
+    },
+  ],
 });
 
 // Alter the model for it to suit our needs

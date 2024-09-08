@@ -41,3 +41,12 @@ Content-Type: application/json
     "username": "1stein",
     "password": "spacetime"
 }
+
+# Post a comment
+
+POST http://localhost:3001/api/blogs/66ddb1828bbb72436cf88fc4/comments
+Content-Type: application/json
+
+{
+    "comment": "Very cool."
+}
