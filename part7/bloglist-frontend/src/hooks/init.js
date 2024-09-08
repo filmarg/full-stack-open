@@ -2,15 +2,17 @@ import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { initializeBlogs } from '../reducers/blogReducer';
+import { initializeUsers } from '../reducers/usersReducer';
 import { storeUser } from '../reducers/userReducer';
 
 import blogService from '../services/blogs';
 
-const useInitialBlogs = () => {
+const useInitialData = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(initializeBlogs());
+    dispatch(initializeUsers());
   }, []);
 };
 
@@ -27,4 +29,4 @@ const useLoggedUser = () => {
   }, []);
 };
 
-export { useInitialBlogs, useLoggedUser };
+export { useInitialData, useLoggedUser };

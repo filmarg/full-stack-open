@@ -1,20 +1,19 @@
-import { useRef } from 'react';
-import { useInitialBlogs, useLoggedUser } from './hooks/init';
+import { useInitialData, useLoggedUser } from './hooks/init';
 
 import { useSelector } from 'react-redux';
 
 import Notification from './components/Notification';
-import Togglable from './components/Togglable';
-import BlogForm from './components/BlogForm';
-import Blogs from './components/Blogs';
 import Login from './components/Login';
 import Logout from './components/Logout';
+import BlogsView from './components/BlogsView';
+import UsersView from './components/UsersView';
+
+import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
   const user = useSelector((state) => state.user);
-  const blogFormRef = useRef();
 
-  useInitialBlogs();
+  useInitialData();
   useLoggedUser();
 
   if (!user) {
@@ -32,10 +31,10 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification />
       <Logout />
-      <Togglable label="Create new blog" ref={blogFormRef}>
-        <BlogForm blogFormRef={blogFormRef} />
-      </Togglable>
-      <Blogs />
+      <Routes>
+        <Route path="/" element={<BlogsView />} />
+        <Route path="/users" element={<UsersView />} />
+      </Routes>
     </div>
   );
 };
