@@ -5,6 +5,8 @@ import { useField } from '../hooks/forms';
 import { setNotification } from '../reducers/notificationReducer';
 import { createBlog } from '../reducers/blogReducer';
 
+import { Button, Input } from './shared-styled';
+
 const BlogForm = ({ blogFormRef }) => {
   const dispatch = useDispatch();
 
@@ -48,20 +50,20 @@ const BlogForm = ({ blogFormRef }) => {
       <h3>Post a blog</h3>
       <form onSubmit={handleSubmit}>
         <div>
-          Title:
-          <input placeholder="Title" {...title.attrs} />
+          <label htmlFor="title-input">Title:</label>
+          <Input id="title-input" {...title.attrs} />
         </div>
         <div>
-          Author:
-          <input placeholder="Author" {...author.attrs} />
+          <label htmlFor="author-input">Author:</label>
+          <Input id="author-input" {...author.attrs} />
         </div>
         <div>
-          URL:
-          <input placeholder="URL" {...url.attrs} />
+          <label htmlFor="url-input">URL:</label>
+          <Input id="url-input" {...url.attrs} />
         </div>
-        <button id="postButton" type="submit">
+        <Button id="postButton" type="submit">
           Post
-        </button>
+        </Button>
       </form>
     </div>
   );

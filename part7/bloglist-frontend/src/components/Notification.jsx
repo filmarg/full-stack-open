@@ -1,5 +1,7 @@
 import { useSelector } from 'react-redux';
 
+import styled from 'styled-components';
+
 const Notification = () => {
   const notification = useSelector((state) => state.notification);
 
@@ -8,17 +10,17 @@ const Notification = () => {
   }
 
   const color = notification.type === 'error' ? 'red' : 'green';
-  const style = {
-    color,
-    background: 'lightgrey',
-    fontSize: 20,
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  };
 
-  return <div style={style}>{notification.message}</div>;
+  return <Alert $variant={color}>{notification.message}</Alert>;
 };
+
+const Alert = styled.div`
+  color: ${(props) => props.$variant || '#c70'};
+  background: white;
+  font-size: 1.2em;
+  border: 1px solid;
+  padding: 0.6em;
+  margin-bottom: 0.6em;
+`;
 
 export default Notification;

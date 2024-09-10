@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { login } from '../reducers/userReducer';
 import { setNotification } from '../reducers/notificationReducer';
 
+import { Button, Input } from './shared-styled';
+
 const Login = () => {
   const dispatch = useDispatch();
   const username = useField('text');
@@ -37,14 +39,14 @@ const Login = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        Username:
-        <input {...username.attrs} />
+        <label htmlFor="username-input">Username:</label>
+        <Input id="username-input" {...username.attrs} />
       </div>
       <div>
-        Password:
-        <input {...password.attrs} />
+        <label htmlFor="password-input">Password:</label>
+        <Input id="password-input" {...password.attrs} />
       </div>
-      <button type="submit">Log in</button>
+      <Button type="submit">Log in</Button>
     </form>
   );
 };

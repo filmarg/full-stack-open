@@ -2,26 +2,31 @@ import Logout from './Logout';
 
 import { Link } from 'react-router-dom';
 
-const Menu = () => {
-  const bar = {
-    padding: 10,
-    backgroundColor: 'lightgray',
-  };
-  const padding = {
-    paddingRight: 5,
-  };
+import styled from 'styled-components';
 
+const Menu = () => {
   return (
-    <div style={bar}>
-      <Link to="/" style={padding}>
-        Blogs
-      </Link>
-      <Link to="/users" style={padding}>
-        Users
-      </Link>
+    <Navigation>
+      <NavLink to="/">Blogs</NavLink>
+      <NavLink to="/users">Users</NavLink>
       <Logout />
-    </div>
+    </Navigation>
   );
 };
+
+const Navigation = styled.nav`
+  padding: 0.4em 0.5em;
+  background-color: #fa0;
+`;
+
+const NavLink = styled(Link)`
+  padding: 0.4em;
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    background-color: #c70;
+  }
+`;
 
 export default Menu;

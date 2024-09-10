@@ -4,6 +4,8 @@ import { likeBlog, deleteBlog, postComment } from '../reducers/blogReducer';
 
 import { useParams, useNavigate } from 'react-router-dom';
 
+import { Button, Input } from './shared-styled';
+
 const BlogView = () => {
   const id = useParams().id;
   const navigate = useNavigate();
@@ -65,21 +67,21 @@ const BlogView = () => {
       </div>
       <div>
         Likes: {blog.likes}
-        <button id="likeButton" onClick={handleLike}>
+        <Button id="likeButton" onClick={handleLike}>
           Like
-        </button>
+        </Button>
       </div>
       <div>User: {blog.user.name}</div>
       <div>
         {blog.user.username === user.username && (
-          <button onClick={handleDelete}>Delete</button>
+          <Button onClick={handleDelete}>Delete</Button>
         )}
       </div>
       <h4>Comments</h4>
       <div>
         <form onSubmit={handleComment}>
-          <input name="comment" type="text" placeholder="Comment" />
-          <button type="submit">Post comment</button>
+          <Input name="comment" type="text" placeholder="Comment" />
+          <Button type="submit">Post comment</Button>
         </form>
       </div>
       <div>

@@ -12,6 +12,8 @@ import BlogView from './components/BlogView';
 
 import { Routes, Route } from 'react-router-dom';
 
+import styled from 'styled-components';
+
 const App = () => {
   const user = useSelector((state) => state.user);
 
@@ -20,27 +22,50 @@ const App = () => {
 
   if (!user) {
     return (
-      <div>
-        <h2>Log in to application</h2>
-        <Notification />
-        <Login />
-      </div>
+      <Page>
+        <Header>
+          <h2>Log in to application</h2>
+        </Header>
+        <Main>
+          <Notification />
+          <Login />
+        </Main>
+      </Page>
     );
   }
 
   return (
-    <div>
+    <Page>
       <Menu />
-      <h2>Blog app</h2>
-      <Notification />
-      <Routes>
-        <Route path="/" element={<BlogsView />} />
-        <Route path="/users" element={<UsersView />} />
-        <Route path="/users/:id" element={<UserView />} />
-        <Route path="/blogs/:id" element={<BlogView />} />
-      </Routes>
-    </div>
+      <Header>
+        <h2>Blog App</h2>
+      </Header>
+      <Main>
+        <Notification />
+        <Routes>
+          <Route path="/" element={<BlogsView />} />
+          <Route path="/users" element={<UsersView />} />
+          <Route path="/users/:id" element={<UserView />} />
+          <Route path="/blogs/:id" element={<BlogView />} />
+        </Routes>
+      </Main>
+    </Page>
   );
 };
+
+const Page = styled.div`
+  width: 90%;
+  margin: auto;
+  background-color: #f6f6f6;
+  font-family: sans-serif;
+`;
+
+const Header = styled.header`
+  padding: 0.1em 0 0 1em;
+`;
+
+const Main = styled.main`
+  padding: 0 1em 1em 1em;
+`;
 
 export default App;

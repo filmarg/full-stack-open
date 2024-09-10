@@ -1,22 +1,21 @@
 import { Link } from 'react-router-dom';
 
-const Blog = ({ blog }) => {
-  const blogStyle = {
-    paddingTop: 6,
-    paddingBottom: 2,
-    paddingLeft: 4,
-    borderBottom: 'solid',
-    borderWidth: 0.5,
-    marginBottom: 5,
-  };
+import styled from 'styled-components';
 
+const Blog = ({ blog }) => {
   return (
-    <div style={blogStyle}>
+    <Entry>
       <Link to={`/blogs/${blog.id}`}>
         {blog.title}—{blog.author}
       </Link>
-    </div>
+    </Entry>
   );
 };
+
+const Entry = styled.div`
+  padding: 0.4em 0.4em;
+  border-bottom: 1px dotted black;
+  margin-bottom: 0.3em;
+`;
 
 export default Blog;

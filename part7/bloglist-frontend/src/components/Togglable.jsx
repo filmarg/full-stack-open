@@ -1,5 +1,7 @@
 import { useState, forwardRef, useImperativeHandle } from 'react';
 
+import { Button } from './shared-styled';
+
 const Togglable = forwardRef((props, refs) => {
   const [visible, setVisible] = useState(false);
 
@@ -17,11 +19,11 @@ const Togglable = forwardRef((props, refs) => {
   return (
     <div>
       <div style={hideOnVisible}>
-        <button onClick={handleToggle}>{props.label}</button>
+        <Button onClick={handleToggle}>{props.label}</Button>
       </div>
       <div style={showOnVisible}>
         {props.children}
-        <button onClick={handleToggle}>Cancel</button>
+        <Button onClick={handleToggle}>Cancel</Button>
       </div>
     </div>
   );
