@@ -4,6 +4,7 @@ import { likeBlog, deleteBlog, postComment } from '../reducers/blogReducer';
 
 import { useParams, useNavigate } from 'react-router-dom';
 
+import { Link } from 'react-router-dom';
 import { Button, Input } from './shared-styled';
 
 const BlogView = () => {
@@ -30,7 +31,7 @@ const BlogView = () => {
   const handleDelete = async () => {
     if (window.confirm(`Remove "${blog.title}" by ${blog.author}?`)) {
       try {
-        await dispatch(deleteBlog(blog.id));
+        await dispatch(deleteBlog(blog));
         navigate('/');
       } catch (ex) {
         dispatch(
@@ -71,7 +72,9 @@ const BlogView = () => {
           Like
         </Button>
       </div>
-      <div>User: {blog.user.name}</div>
+      <div>
+        User: <Link to={`/users/${blog.user.id}`}>{blog.user.name}</Link>
+      </div>
       <div>
         {blog.user.username === user.username && (
           <Button onClick={handleDelete}>Delete</Button>
